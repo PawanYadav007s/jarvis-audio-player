@@ -1,0 +1,26 @@
+import yt_dlp
+import vlc
+import time
+
+def play_song(search_query):
+    ydl_opts = {
+        'format': 'bestaudio',
+        'quiet': True,
+        'noplaylist': True
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(f"ytsearch:{search_query}", download=False)
+        url = info['entries'][0]['url']
+
+    player = vlc.MediaPlayer(url)
+    player.play()
+
+    print(f"Playing: {search_query}")
+
+    # Keep script running
+    while True:
+        time.sleep(1)
+
+# Example: latest trending song
+play_song("latest Hindi songs 2026")

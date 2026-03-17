@@ -1,0 +1,68 @@
+from typing import Any, Optional
+import yt_dlp
+import vlc
+import time
+
+
+def get_audio_url(query: str) -> Optional[str]:
+    ydl_opts: Any = {
+        "format": "bestaudio",
+        "quiet": True,
+        "noplaylist": True,
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info: Any = ydl.extract_info(f"ytsearch1:{query}", download=False)
+
+        if info and "entries" in info:
+            entries = info["entries"]
+            if entries:
+                return entries[0]["url"]
+
+    return None
+
+
+def play_song() -> None:
+    player: Optional[vlc.MediaPlayer] = None
+
+    while True:
+        song = input("\nEnter song name (or 'exit'): ")
+
+        if song.lower() == "exit":
+            print("Goodbye 👋")
+            if player is not None:
+                player.stop()
+            break
+
+        print(f"Searching & Playing: {song} ...")
+
+        url = get_audio_url(song)
+
+        if not url:
+            print("❌ Song not found")
+            continue
+
+        # Stop previous song safely
+        if player is not None:
+            player.stop()
+
+        # Create new player
+        player = vlc.MediaPlayer(url)
+
+        # ✅ FIX: check before play
+        if player is not None:
+            player.play()
+
+        print("▶ Playing... (Ctrl+C to change song)")
+
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            if player is not None:
+                player.stop()
+            print("\n⏹ Stopped")
+
+
+if __name__ == "__main__":
+    play_song()
