@@ -1,0 +1,2751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASCO Industries | Precision Automation Since 2009</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ===========================
+           TOTAL RESET + DARK BASE
+           =========================== */
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111111;
+            --bg3: #1a1a1a;
+            --surface: #151515;
+            --surface2: #1e1e1e;
+            --border: rgba(255,255,255,0.06);
+            --border2: rgba(255,255,255,0.1);
+            --white: #ffffff;
+            --white-70: rgba(255,255,255,0.7);
+            --white-50: rgba(255,255,255,0.5);
+            --white-30: rgba(255,255,255,0.3);
+            --white-10: rgba(255,255,255,0.1);
+            --white-05: rgba(255,255,255,0.05);
+            --teal: #4DBAD5;
+            --teal-glow: rgba(77,186,213,0.15);
+            --teal-glow2: rgba(77,186,213,0.08);
+            --accent: #E8453C;
+            --navy: #0A2540;
+            --gradient1: linear-gradient(135deg, #4DBAD5 0%, #2E8BC0 100%);
+            --gradient2: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--teal) var(--bg);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        ::selection {
+            background: var(--teal);
+            color: var(--bg);
+        }
+
+        /* ===========================
+           CUSTOM CURSOR
+           =========================== */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--teal);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1.5px solid var(--teal);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transition: all 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-ring.expand {
+            width: 70px;
+            height: 70px;
+            border-color: var(--white);
+            background: rgba(77,186,213,0.05);
+        }
+
+        /* ===========================
+           NOISE TEXTURE OVERLAY
+           =========================== */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        /* ===========================
+           LOADER
+           =========================== */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .loader.done {
+            animation: loaderExit 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        @keyframes loaderExit {
+            0% { clip-path: inset(0 0 0 0); }
+            100% { clip-path: inset(0 0 100% 0); }
+        }
+
+        .loader-counter {
+            font-family: 'Outfit', sans-serif;
+            font-size: 80px;
+            font-weight: 100;
+            color: var(--white);
+            letter-spacing: -4px;
+        }
+
+        .loader-line {
+            width: 200px;
+            height: 1px;
+            background: var(--white-10);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-line-fill {
+            position: absolute;
+            height: 100%;
+            background: var(--teal);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .loader-text {
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--white-30);
+        }
+
+        /* ===========================
+           NAVIGATION
+           =========================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav.scrolled {
+            padding: 16px 48px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--bg);
+        }
+
+        .nav-logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo-text span {
+            color: var(--white-30);
+            font-weight: 400;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-link {
+            padding: 10px 18px;
+            font-size: 14px;
+            color: var(--white-50);
+            transition: all 0.3s;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--white);
+            background: var(--white-05);
+        }
+
+        .nav-cta {
+            padding: 10px 24px;
+            background: var(--white);
+            color: var(--bg);
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin-left: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-cta:hover {
+            background: var(--teal);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+
+        .nav-cta .arrow {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .nav-cta:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        /* Menu Toggle */
+        .menu-toggle {
+            display: none;
+            width: 48px;
+            height: 48px;
+            background: var(--white-05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 20px;
+            height: 1.5px;
+            background: var(--white);
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Full Screen Menu */
+        .fullscreen-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s;
+        }
+
+        .fullscreen-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fullscreen-menu-inner {
+            text-align: center;
+        }
+
+        .fullscreen-link {
+            display: block;
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700;
+            color: var(--white-30);
+            padding: 8px 0;
+            transition: all 0.3s;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .fullscreen-menu.open .fullscreen-link {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .fullscreen-link:nth-child(1) { transition-delay: 0.1s; }
+        .fullscreen-link:nth-child(2) { transition-delay: 0.15s; }
+        .fullscreen-link:nth-child(3) { transition-delay: 0.2s; }
+        .fullscreen-link:nth-child(4) { transition-delay: 0.25s; }
+        .fullscreen-link:nth-child(5) { transition-delay: 0.3s; }
+        .fullscreen-link:nth-child(6) { transition-delay: 0.35s; }
+        .fullscreen-link:nth-child(7) { transition-delay: 0.4s; }
+
+        .fullscreen-link:hover {
+            color: var(--teal);
+            transform: translateX(20px);
+        }
+
+        /* ===========================
+           HERO — CINEMATIC STYLE
+           =========================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 60px;
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-video-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.25) saturate(0.6);
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, 
+                rgba(10,10,10,0.3) 0%, 
+                rgba(10,10,10,0.1) 40%, 
+                rgba(10,10,10,0.8) 80%, 
+                rgba(10,10,10,1) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 0 48px;
+        }
+
+        .hero-top-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border: 1px solid var(--border2);
+            border-radius: 100px;
+            font-size: 12px;
+            color: var(--white-50);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-top-tag .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--teal);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero-heading {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(48px, 8vw, 120px);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -3px;
+            margin-bottom: 40px;
+            max-width: 900px;
+        }
+
+        .hero-heading .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-heading .line-inner {
+            display: block;
+            transform: translateY(100%);
+            animation: slideUp 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        .hero-heading .line:nth-child(1) .line-inner { animation-delay: 0.4s; }
+        .hero-heading .line:nth-child(2) .line-inner { animation-delay: 0.5s; color: var(--teal); }
+        .hero-heading .line:nth-child(3) .line-inner { animation-delay: 0.6s; }
+
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+
+        .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 40px;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--white-50);
+            line-height: 1.7;
+            max-width: 420px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .btn-glow {
+            padding: 16px 36px;
+            background: var(--teal);
+            color: var(--bg);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient1);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(77,186,213,0.3);
+        }
+
+        .btn-glow:hover::after {
+            opacity: 1;
+        }
+
+        .btn-glow span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-ghost {
+            padding: 16px 36px;
+            background: transparent;
+            color: var(--white);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            border: 1px solid var(--white-30);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.4s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--white);
+            background: var(--white-05);
+            transform: translateY(-3px);
+        }
+
+        /* ===========================
+           MARQUEE STRIP
+           =========================== */
+        .marquee-strip {
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .marquee-inner {
+            display: flex;
+            gap: 60px;
+            animation: marqueeScroll 20s linear infinite;
+            width: max-content;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            white-space: nowrap;
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--white-30);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .marquee-item .sep {
+            width: 6px;
+            height: 6px;
+            background: var(--teal);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ===========================
+           STATS BAR — BENTO
+           =========================== */
+        .stats-section {
+            padding: 100px 48px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            background: var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .stat-box {
+            background: var(--surface);
+            padding: 48px 32px;
+            text-align: center;
+            position: relative;
+            transition: background 0.4s;
+        }
+
+        .stat-box:hover {
+            background: var(--surface2);
+        }
+
+        .stat-box:hover .stat-num {
+            color: var(--teal);
+        }
+
+        .stat-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 56px;
+            font-weight: 200;
+            letter-spacing: -2px;
+            color: var(--white);
+            transition: color 0.4s;
+            line-height: 1;
+        }
+
+        .stat-num sup {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--white-30);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 12px;
+        }
+
+        /* ===========================
+           ABOUT — SPLIT SCREEN
+           =========================== */
+        .about-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        .about-left {
+            background: var(--surface);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7) saturate(0.8);
+            transition: transform 8s ease;
+        }
+
+        .about-left:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-year-badge {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            z-index: 2;
+        }
+
+        .about-year-badge .year {
+            font-family: 'Outfit', sans-serif;
+            font-size: 100px;
+            font-weight: 100;
+            color: var(--white);
+            line-height: 1;
+            letter-spacing: -4px;
+        }
+
+        .about-year-badge .label {
+            font-size: 12px;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .about-right {
+            padding: 80px 64px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--bg);
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 32px;
+        }
+
+        .tag::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--teal);
+        }
+
+        .section-heading {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 32px;
+        }
+
+        .section-heading .teal {
+            color: var(--teal);
+        }
+
+        .about-text {
+            font-size: 16px;
+            color: var(--white-50);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .about-features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .about-feat {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--white-05);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all 0.3s;
+        }
+
+        .about-feat:hover {
+            background: var(--teal-glow2);
+            border-color: rgba(77,186,213,0.2);
+            transform: translateX(8px);
+        }
+
+        .about-feat-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--teal-glow);
+            border-radius: 10px;
+            color: var(--teal);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .about-feat-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white-70);
+        }
+
+        /* ===========================
+           MISSION & VISION — BENTO
+           =========================== */
+        .mv-section {
+            padding: 100px 48px;
+        }
+
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .mv-card {
+            background: var(--surface);
+            padding: 60px 48px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.4s;
+        }
+
+        .mv-card:hover {
+            background: var(--surface2);
+        }
+
+        .mv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s;
+        }
+
+        .mv-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .mv-icon {
+            font-size: 32px;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .mv-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .mv-text {
+            font-size: 15px;
+            color: var(--white-50);
+            line-height: 1.8;
+        }
+
+        /* ===========================
+           PRODUCTS — HORIZONTAL SCROLL
+           =========================== */
+        .products-section {
+            padding: 100px 0;
+            overflow: hidden;
+        }
+
+        .products-header {
+            padding: 0 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 60px;
+        }
+
+        .products-header-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .scroll-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--white);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-btn:hover {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: var(--bg);
+        }
+
+        .products-track-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0 48px 24px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .products-track-wrapper::-webkit-scrollbar { display: none; }
+
+        .products-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+        }
+
+        .product-card {
+            width: 380px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: rgba(77,186,213,0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .product-card-img {
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6) saturate(0.7);
+            transition: all 0.6s;
+        }
+
+        .product-card:hover .product-card-img img {
+            filter: brightness(0.8) saturate(1);
+            transform: scale(1.08);
+        }
+
+        .product-card-num {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 48px;
+            font-weight: 100;
+            color: rgba(255,255,255,0.15);
+            z-index: 1;
+        }
+
+        .product-card-body {
+            padding: 28px;
+        }
+
+        .product-card-tag {
+            font-size: 11px;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .product-card-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .product-card-desc {
+            font-size: 14px;
+            color: var(--white-30);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .product-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--teal);
+            transition: gap 0.3s;
+        }
+
+        .product-card-link:hover {
+            gap: 14px;
+        }
+
+        /* ===========================
+           INDUSTRIES — PILL STYLE
+           =========================== */
+        .industries-section {
+            padding: 100px 48px;
+            text-align: center;
+        }
+
+        .industries-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pill {
+            padding: 14px 28px;
+            background: var(--white-05);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 14px;
+            color: var(--white-50);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: default;
+        }
+
+        .pill:hover {
+            background: var(--teal-glow);
+            border-color: rgba(77,186,213,0.3);
+            color: var(--teal);
+            transform: translateY(-4px);
+        }
+
+        .pill .emoji {
+            font-size: 18px;
+        }
+
+        /* ===========================
+           WHY US — BENTO GRID
+           =========================== */
+        .bento-section {
+            padding: 100px 48px;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 2px;
+            background: var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .bento-card {
+            background: var(--surface);
+            padding: 44px 36px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card:hover {
+            background: var(--surface2);
+        }
+
+        .bento-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--teal);
+            transition: width 0.5s;
+        }
+
+        .bento-card:hover::after {
+            width: 100%;
+        }
+
+        .bento-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--teal-glow);
+            border-radius: 12px;
+            color: var(--teal);
+            font-size: 20px;
+            margin-bottom: 24px;
+            transition: all 0.4s;
+        }
+
+        .bento-card:hover .bento-icon {
+            background: var(--teal);
+            color: var(--bg);
+        }
+
+        .bento-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .bento-desc {
+            font-size: 14px;
+            color: var(--white-30);
+            line-height: 1.7;
+        }
+
+        /* ===========================
+           PROCESS — MINIMAL TIMELINE
+           =========================== */
+        .process-section {
+            padding: 100px 48px;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .process-grid::before {
+            content: '';
+            position: absolute;
+            top: 36px;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--teal), var(--teal), transparent);
+            opacity: 0.3;
+        }
+
+        .process-item {
+            text-align: center;
+        }
+
+        .process-num {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--teal);
+            transition: all 0.4s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-item:hover .process-num {
+            background: var(--teal);
+            color: var(--bg);
+            border-color: var(--teal);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(77,186,213,0.3);
+        }
+
+        .process-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .process-desc {
+            font-size: 13px;
+            color: var(--white-30);
+            line-height: 1.6;
+        }
+
+        /* ===========================
+           CLIENTS — LOGO GRID
+           =========================== */
+        .clients-section {
+            padding: 80px 48px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2px;
+            margin-top: 48px;
+        }
+
+        .client-box {
+            background: var(--white-05);
+            padding: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white-30);
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            height: 90px;
+        }
+
+        .client-box:hover {
+            background: var(--teal-glow2);
+            color: var(--teal);
+        }
+
+        /* ===========================
+           TESTIMONIALS — LARGE QUOTE
+           =========================== */
+        .testimonial-section {
+            padding: 120px 48px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial-content {
+            display: none;
+        }
+
+        .testimonial-content.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .testimonial-quote-mark {
+            font-size: 80px;
+            color: var(--teal);
+            opacity: 0.2;
+            line-height: 0.5;
+            margin-bottom: 16px;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-text {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: 500;
+            line-height: 1.5;
+            color: var(--white-70);
+            margin-bottom: 40px;
+        }
+
+        .testimonial-author-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .testimonial-author-role {
+            font-size: 13px;
+            color: var(--white-30);
+            margin-top: 4px;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .t-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--white-10);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .t-dot.active {
+            background: var(--teal);
+            width: 32px;
+            border-radius: 4px;
+        }
+
+        /* ===========================
+           BLOG — EDITORIAL
+           =========================== */
+        .blog-section {
+            padding: 100px 48px;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 2px;
+            background: var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .blog-card-featured {
+            grid-row: span 2;
+            background: var(--surface);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .blog-card-featured:hover .blog-card-f-img img {
+            transform: scale(1.05);
+        }
+
+        .blog-card-f-img {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .blog-card-f-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+            transition: transform 0.6s;
+        }
+
+        .blog-card-f-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 40px;
+            z-index: 1;
+        }
+
+        .blog-card-sm {
+            background: var(--surface);
+            padding: 32px;
+            transition: all 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .blog-card-sm:hover {
+            background: var(--surface2);
+        }
+
+        .blog-tag {
+            font-size: 11px;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .blog-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            transition: color 0.3s;
+        }
+
+        .blog-card-sm:hover .blog-title,
+        .blog-card-featured:hover .blog-title {
+            color: var(--teal);
+        }
+
+        .blog-excerpt {
+            font-size: 14px;
+            color: var(--white-30);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .blog-date {
+            font-size: 12px;
+            color: var(--white-30);
+        }
+
+        /* ===========================
+           CTA — FULL WIDTH
+           =========================== */
+        .cta-section {
+            padding: 120px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .cta-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-heading {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+        }
+
+        .cta-sub {
+            font-size: 18px;
+            color: var(--white-50);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ===========================
+           FOOTER — MINIMAL
+           =========================== */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 80px 48px 32px;
+            background: var(--bg);
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+            gap: 48px;
+            padding-bottom: 64px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--white-30);
+            line-height: 1.7;
+            margin: 16px 0 24px;
+            max-width: 300px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 8px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--white-30);
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+            background: var(--teal-glow2);
+        }
+
+        .footer-col h5 {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-col li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col a {
+            font-size: 14px;
+            color: var(--white-30);
+            transition: all 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--teal);
+            padding-left: 6px;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+            font-size: 14px;
+            color: var(--white-30);
+        }
+
+        .footer-contact-item i {
+            color: var(--teal);
+            width: 16px;
+            margin-top: 3px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            font-size: 13px;
+            color: var(--white-30);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-bottom-links a {
+            color: var(--white-30);
+            transition: color 0.3s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--teal);
+        }
+
+        /* ===========================
+           FLOATING BUTTONS
+           =========================== */
+        .float-whatsapp {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 56px;
+            height: 56px;
+            background: #25D366;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            z-index: 999;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .float-whatsapp:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        /* ===========================
+           RESPONSIVE
+           =========================== */
+        @media (max-width: 1024px) {
+            .nav { padding: 16px 24px; }
+            .nav.scrolled { padding: 12px 24px; }
+            .nav-links, .nav-cta { display: none; }
+            .menu-toggle { display: flex; }
+            
+            .hero-content { padding: 0 24px; }
+            .hero-heading { font-size: clamp(40px, 7vw, 80px); }
+            .hero-bottom { flex-direction: column; align-items: flex-start; }
+            
+            .stats-section { padding: 60px 24px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .about-split { grid-template-columns: 1fr; }
+            .about-left { min-height: 400px; }
+            .about-right { padding: 60px 24px; }
+            
+            .mv-section { padding: 60px 24px; }
+            .mv-grid { grid-template-columns: 1fr; }
+            
+            .products-section { padding: 60px 0; }
+            .products-header { padding: 0 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
+            .products-track-wrapper { padding: 0 24px 24px; }
+            .product-card { width: 320px; }
+            
+            .industries-section { padding: 60px 24px; }
+            
+            .bento-section { padding: 60px 24px; }
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .process-section { padding: 60px 24px; }
+            .process-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .process-grid::before { display: none; }
+            
+            .clients-section { padding: 60px 24px; }
+            .clients-grid { grid-template-columns: repeat(3, 1fr); }
+            
+            .testimonial-section { padding: 80px 24px; }
+            
+            .blog-section { padding: 60px 24px; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .blog-card-featured { grid-row: span 1; min-height: 400px; }
+            
+            .cta-section { padding: 80px 24px; }
+            
+            .footer { padding: 60px 24px 24px; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-ring { display: none; }
+
+            .hero-heading { letter-spacing: -1px; }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .btn-glow, .btn-ghost { width: 100%; justify-content: center; }
+            
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-num { font-size: 40px; }
+            
+            .bento-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
+            
+            .clients-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .industries-pills { gap: 8px; }
+            .pill { padding: 10px 20px; font-size: 13px; }
+            
+            .cta-heading { font-size: 32px; letter-spacing: -1px; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-box { padding: 32px 20px; }
+            .stat-num { font-size: 36px; }
+
+            .hero-heading { font-size: 36px; letter-spacing: -1px; }
+            .hero-desc { font-size: 14px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NOISE OVERLAY -->
+    <div class="noise"></div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader-counter" id="loaderCounter">0</div>
+        <div class="loader-line">
+            <div class="loader-line-fill" id="loaderFill"></div>
+        </div>
+        <div class="loader-text">RASCO Industries</div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="nav" id="nav">
+        <div class="nav-logo">
+            <div class="nav-logo-icon">R</div>
+            <div class="nav-logo-text">RASCO <span>Industries</span></div>
+        </div>
+
+        <div class="nav-links">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#products" class="nav-link">Solutions</a>
+            <a href="#industries" class="nav-link">Industries</a>
+            <a href="#process" class="nav-link">Process</a>
+            <a href="#blog" class="nav-link">Insights</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+
+        <a href="#contact" class="nav-cta">
+            Get a Quote <span class="arrow">→</span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- FULLSCREEN MENU -->
+    <div class="fullscreen-menu" id="fullscreenMenu">
+        <div class="fullscreen-menu-inner">
+            <a href="#about" class="fullscreen-link">About</a>
+            <a href="#products" class="fullscreen-link">Solutions</a>
+            <a href="#industries" class="fullscreen-link">Industries</a>
+            <a href="#process" class="fullscreen-link">Process</a>
+            <a href="#blog" class="fullscreen-link">Insights</a>
+            <a href="#contact" class="fullscreen-link">Contact</a>
+            <a href="#contact" class="fullscreen-link" style="color: var(--teal);">Get a Quote →</a>
+        </div>
+    </div>
+
+    <!-- ====== HERO ====== -->
+    <section class="hero">
+        <div class="hero-video-bg">
+            <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1920&q=80" alt="Factory">
+        </div>
+        <div class="hero-gradient"></div>
+
+        <div class="hero-content">
+            <div class="hero-top-tag">
+                <span class="dot"></span> Engineering Excellence Since 2009
+            </div>
+
+            <h1 class="hero-heading">
+                <span class="line"><span class="line-inner">Precision</span></span>
+                <span class="line"><span class="line-inner">Automation</span></span>
+                <span class="line"><span class="line-inner">Redefined.</span></span>
+            </h1>
+
+            <div class="hero-bottom">
+                <p class="hero-desc">
+                    We bridge the gap between imagination and execution. Custom SPM machines, 
+                    assembly lines, and industrial automation solutions that accelerate your 
+                    production and ensure uncompromised quality.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#products" class="btn-glow"><span>Explore Solutions</span></a>
+                    <a href="#contact" class="btn-ghost"><i class="fas fa-play" style="font-size:12px;"></i> Watch Showreel</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== MARQUEE STRIP ====== -->
+    <div class="marquee-strip">
+        <div class="marquee-inner">
+            <span class="marquee-item"><span class="sep"></span> Assembly Lines</span>
+            <span class="marquee-item"><span class="sep"></span> Press Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Leak Testing</span>
+            <span class="marquee-item"><span class="sep"></span> Crimping Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Torqueing Systems</span>
+            <span class="marquee-item"><span class="sep"></span> Auto Gauging</span>
+            <span class="marquee-item"><span class="sep"></span> Pick & Place</span>
+            <span class="marquee-item"><span class="sep"></span> Welding Fixtures</span>
+            <!-- duplicate -->
+            <span class="marquee-item"><span class="sep"></span> Assembly Lines</span>
+            <span class="marquee-item"><span class="sep"></span> Press Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Leak Testing</span>
+            <span class="marquee-item"><span class="sep"></span> Crimping Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Torqueing Systems</span>
+            <span class="marquee-item"><span class="sep"></span> Auto Gauging</span>
+            <span class="marquee-item"><span class="sep"></span> Pick & Place</span>
+            <span class="marquee-item"><span class="sep"></span> Welding Fixtures</span>
+        </div>
+    </div>
+
+    <!-- ====== STATS ====== -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="400">0</span><sup>+ Cr</sup></div>
+                <div class="stat-label">Annual Turnover</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="500">0</span><sup>+</sup></div>
+                <div class="stat-label">Machines Delivered</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="200">0</span><sup>+</sup></div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="15">0</span><sup>+ Yrs</sup></div>
+                <div class="stat-label">Experience</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== ABOUT SPLIT ====== -->
+    <section class="about-split" id="about">
+        <div class="about-left">
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80" alt="RASCO Factory">
+            <div class="about-year-badge">
+                <div class="label">Established</div>
+                <div class="year">2009</div>
+            </div>
+        </div>
+        <div class="about-right">
+            <div class="tag">Who We Are</div>
+            <h2 class="section-heading">Bridging Imagination<br>& <span class="teal">Execution</span></h2>
+            <p class="about-text">
+                At RASCO Industries, we are engaged in the field of industrial automation & 
+                equipment supply dedicated to customer requirements. Since 2009, we've been 
+                transforming manufacturers' operations by delivering precision-engineered 
+                automation solutions tailored to evolving industry needs.
+            </p>
+            <p class="about-text">
+                Our products enhance productivity, accuracy, and safety — allowing companies 
+                to scale efficiently while minimizing human error and operational downtime.
+            </p>
+
+            <div class="about-features-list">
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="about-feat-text">ISO 9001:2015 Certified Manufacturing</div>
+                </div>
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-drafting-compass"></i></div>
+                    <div class="about-feat-text">In-house Design, R&D & Engineering</div>
+                </div>
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="about-feat-text">End-to-End Turnkey Automation Solutions</div>
+                </div>
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-headset"></i></div>
+                    <div class="about-feat-text">24/7 After-Sales Support & Maintenance</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== MISSION & VISION ====== -->
+    <section class="mv-section">
+        <div class="mv-grid">
+            <div class="mv-card">
+                <span class="mv-icon">🎯</span>
+                <h3 class="mv-title">Our Mission</h3>
+                <p class="mv-text">
+                    To provide end-to-end turnkey solutions in manufacturing, assembly, and product testing 
+                    by harnessing the power of advanced engineering, innovative design, and precision manufacturing. 
+                    We are committed to enhancing our clients' operational efficiency, ensuring uncompromised quality, 
+                    and accelerating their journey from concept to market.
+                </p>
+            </div>
+            <div class="mv-card">
+                <span class="mv-icon">🔭</span>
+                <h3 class="mv-title">Our Vision</h3>
+                <p class="mv-text">
+                    To be a global leader in precision engineering and industrial automation, known for innovation, 
+                    reliability, and customer-centric solutions. To provide cutting-edge, end-to-end automation 
+                    solutions that drive productivity, ensure quality, and accelerate time-to-market for our clients.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== PRODUCTS — HORIZONTAL SCROLL ====== -->
+    <section class="products-section" id="products">
+        <div class="products-header">
+            <div>
+                <div class="tag">Our Solutions</div>
+                <h2 class="section-heading">What We <span class="teal">Build</span></h2>
+            </div>
+            <div class="products-header-right">
+                <button class="scroll-btn" id="scrollLeft"><i class="fas fa-arrow-left"></i></button>
+                <button class="scroll-btn" id="scrollRight"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="products-track-wrapper" id="productsTrack">
+            <div class="products-track">
+
+                <!-- Card 1 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">01</div>
+                        <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=500&q=80" alt="Assembly Lines">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Automation</div>
+                        <h3 class="product-card-title">Assembly Lines</h3>
+                        <p class="product-card-desc">Fully automated assembly line solutions for mass production with precision, speed and minimal downtime.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">02</div>
+                        <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ede4bcd?w=500&q=80" alt="Press Machines">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Pressing</div>
+                        <h3 class="product-card-title">Press Machines</h3>
+                        <p class="product-card-desc">Press machines with pressing load & distance controlling interlock for precision forming operations.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">03</div>
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="Auto Gauging">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Inspection</div>
+                        <h3 class="product-card-title">Auto Gauging Equipment</h3>
+                        <p class="product-card-desc">High-precision automatic gauging systems for quality inspection, measurement and real-time verification.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">04</div>
+                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=500&q=80" alt="Leak Testing">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Testing</div>
+                        <h3 class="product-card-title">Leak Testing Machines</h3>
+                        <p class="product-card-desc">Advanced leak testing solutions ensuring product integrity, zero-defect compliance and quality standards.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">05</div>
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80" alt="Crimping">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Joining</div>
+                        <h3 class="product-card-title">Crimping Machines</h3>
+                        <p class="product-card-desc">Precision crimping solutions for reliable and consistent electrical connections in manufacturing.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">06</div>
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22731c9383?w=500&q=80" alt="Torqueing">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Fastening</div>
+                        <h3 class="product-card-title">Torqueing & Preload</h3>
+                        <p class="product-card-desc">Accurate torqueing and preload setting machines for critical fastening applications in automotive & aerospace.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">07</div>
+                        <img src="https://images.unsplash.com/photo-1537462715315-eb0b3a4414c7?w=500&q=80" alt="Pick Place">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Handling</div>
+                        <h3 class="product-card-title">Pick & Place Equipment</h3>
+                        <p class="product-card-desc">Automated pick & place systems for efficient material handling, positioning and streamlined operations.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">08</div>
+                        <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ede4bcd?w=500&q=80" alt="Greasing">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Lubrication</div>
+                        <h3 class="product-card-title">Auto Greasing Machines</h3>
+                        <p class="product-card-desc">Automated greasing systems ensuring consistent and precise lubrication in manufacturing processes.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">09</div>
+                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=500&q=80" alt="Nut Runner">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Ergonomics</div>
+                        <h3 class="product-card-title">Nut-Runner Mounting Arm</h3>
+                        <p class="product-card-desc">Ergonomic nut-runner mounting arms for precise and fatigue-free fastening operations on the shop floor.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 10 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">10</div>
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="Material Handling">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Material Flow</div>
+                        <h3 class="product-card-title">Material & Tools Handling</h3>
+                        <p class="product-card-desc">Custom material and tools handling equipment designed for streamlined and safe factory operations.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 11 -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <div class="product-card-num">11</div>
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80" alt="Fixtures">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Fixtures</div>
+                        <h3 class="product-card-title">Welding & Assembly Fixtures</h3>
+                        <p class="product-card-desc">Precision welding, machining & assembly fixtures for accurate component positioning and repeatability.</p>
+                        <a href="#" class="product-card-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== INDUSTRIES ====== -->
+    <section class="industries-section" id="industries">
+        <div class="tag" style="justify-content: center;">Industries We Serve</div>
+        <h2 class="section-heading">Powering Diverse <span class="teal">Sectors</span></h2>
+        <p style="color: var(--white-30); max-width: 500px; margin: 0 auto; font-size: 16px;">
+            Delivering custom automation solutions across India's most demanding industries
+        </p>
+
+        <div class="industries-pills">
+            <div class="pill"><span class="emoji">🚗</span> Automotive</div>
+            <div class="pill"><span class="emoji">✈️</span> Aerospace</div>
+            <div class="pill"><span class="emoji">🛡️</span> Defense</div>
+            <div class="pill"><span class="emoji">⚡</span> Electronics</div>
+            <div class="pill"><span class="emoji">🏗️</span> Heavy Engineering</div>
+            <div class="pill"><span class="emoji">💊</span> Pharmaceutical</div>
+            <div class="pill"><span class="emoji">🍶</span> FMCG</div>
+            <div class="pill"><span class="emoji">🔋</span> Energy</div>
+            <div class="pill"><span class="emoji">🏭</span> General Engineering</div>
+            <div class="pill"><span class="emoji">📦</span> White Goods</div>
+        </div>
+    </section>
+
+    <!-- ====== WHY US BENTO ====== -->
+    <section class="bento-section">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <div class="tag" style="justify-content: center;">Why RASCO</div>
+            <h2 class="section-heading">Built Different. <span class="teal">Built Better.</span></h2>
+        </div>
+
+        <div class="bento-grid">
+            <div class="bento-card">
+                <div class="bento-icon"><i class="fas fa-crosshairs"></i></div>
+                <h3 class="bento-title">Precision Engineering</h3>
+                <p class="bento-desc">Micron-level accuracy in every machine. Repeatable quality for safety-sensitive industries like automotive, aerospace and defense.</p>
+            </div>
+            <div class="bento-card">
+                <div class="bento-icon"><i class="fas fa-industry"></i></div>
+                <h3 class="bento-title">In-House Manufacturing</h3>
+                <p class="bento-desc">State-of-the-art facility with end-to-end capabilities. Design, manufacture, test and commission — all under one roof.</p>
+            </div>
+            <div class="bento-card">
+                <div class="bento-icon"><i class="fas fa-atom"></i></div>
+                <h3 class="bento-title">R&D Driven Innovation</h3>
+                <p class="bento-desc">Dedicated research & development center driving cutting-edge solutions with advanced CAD/CAM and simulation tools.</p>
+            </div>
+            <div class="bento-card">
+                <div class="bento-icon"><i class="fas fa-project-diagram"></i></div>
+                <h3 class="bento-title">End-to-End Solutions</h3>
+                <p class="bento-desc">Complete turnkey solutions from initial concept to final commissioning — design, manufacturing, installation and training.</p>
+            </div>
+            <div class="bento-card">
+                <div class="bento-icon"><i class="fas fa-globe-asia"></i></div>
+                <h3 class="bento-title">Pan India Presence</h3>
+                <p class="bento-desc">Serving 200+ clients across India with a robust service and support network ensuring minimal operational downtime.</p>
+            </div>
+            <div class="bento-card">
+                <div class="bento-icon"><i class="fas fa-life-ring"></i></div>
+                <h3 class="bento-title">After-Sales Support</h3>
+                <p class="bento-desc">Dedicated service team providing prompt maintenance, spare parts supply and round-the-clock technical support.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== PROCESS ====== -->
+    <section class="process-section" id="process">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <div class="tag" style="justify-content: center;">Our Process</div>
+            <h2 class="section-heading">Concept to <span class="teal">Commissioning</span></h2>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-item">
+                <div class="process-num">01</div>
+                <h3 class="process-title">Consultation</h3>
+                <p class="process-desc">Deep dive into your manufacturing challenges, production goals and operational requirements.</p>
+            </div>
+            <div class="process-item">
+                <div class="process-num">02</div>
+                <h3 class="process-title">Design & Engineering</h3>
+                <p class="process-desc">Precision designs using advanced CAD/CAM with 3D modeling and simulation testing.</p>
+            </div>
+            <div class="process-item">
+                <div class="process-num">03</div>
+                <h3 class="process-title">Manufacturing & QC</h3>
+                <p class="process-desc">State-of-the-art manufacturing with rigorous quality checks at every production stage.</p>
+            </div>
+            <div class="process-item">
+                <div class="process-num">04</div>
+                <h3 class="process-title">Delivery & Support</h3>
+                <p class="process-desc">On-site installation, commissioning, operator training and complete after-sales support.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CLIENTS ====== -->
+    <section class="clients-section" id="clients">
+        <div style="text-align: center; margin-bottom: 0;">
+            <div class="tag" style="justify-content: center;">Our Clients</div>
+            <h2 class="section-heading">Trusted by <span class="teal">Leaders</span></h2>
+        </div>
+
+        <div class="clients-grid">
+            <div class="client-box">TATA Motors</div>
+            <div class="client-box">L&T</div>
+            <div class="client-box">Mahindra</div>
+            <div class="client-box">Bajaj Auto</div>
+            <div class="client-box">Hero Moto</div>
+            <div class="client-box">Maruti Suzuki</div>
+            <div class="client-box">Bosch</div>
+            <div class="client-box">Godrej</div>
+            <div class="client-box">Siemens</div>
+            <div class="client-box">ABB</div>
+            <div class="client-box">BHEL</div>
+            <div class="client-box">HAL</div>
+            <div class="client-box">Toyota</div>
+            <div class="client-box">Cummins</div>
+            <div class="client-box">Volvo</div>
+        </div>
+    </section>
+
+    <!-- ====== TESTIMONIALS ====== -->
+    <section class="testimonial-section" id="testimonials">
+        <div class="tag" style="justify-content: center;">Testimonials</div>
+        <h2 class="section-heading" style="margin-bottom: 48px;">Client <span class="teal">Voices</span></h2>
+
+        <div class="testimonial-content active" data-index="0">
+            <div class="testimonial-quote-mark">❝</div>
+            <p class="testimonial-text">
+                RASCO Industries delivered a world-class SPM machine that increased our 
+                production efficiency by 200%. Their engineering team understood our requirements 
+                perfectly and delivered ahead of schedule.
+            </p>
+            <div class="testimonial-author-name">Rajesh Kumar</div>
+            <div class="testimonial-author-role">VP Manufacturing — Leading Automotive Company</div>
+        </div>
+
+        <div class="testimonial-content" data-index="1">
+            <div class="testimonial-quote-mark">❝</div>
+            <p class="testimonial-text">
+                We've been working with RASCO for 5+ years. Their assembly line solutions 
+                transformed our production floor completely. Quality, attention to detail 
+                and commitment to timely delivery sets them apart.
+            </p>
+            <div class="testimonial-author-name">Suresh Patel</div>
+            <div class="testimonial-author-role">Plant Head — Electronics Manufacturing Corp.</div>
+        </div>
+
+        <div class="testimonial-content" data-index="2">
+            <div class="testimonial-quote-mark">❝</div>
+            <p class="testimonial-text">
+                The leak testing machine from RASCO has been a game-changer for our quality 
+                control. Zero defect rate since installation. Their technical expertise and 
+                after-sales support is truly outstanding.
+            </p>
+            <div class="testimonial-author-name">Ankit Mehta</div>
+            <div class="testimonial-author-role">Quality Director — Precision Parts Manufacturer</div>
+        </div>
+
+        <div class="testimonial-nav">
+            <button class="t-dot active" data-slide="0"></button>
+            <button class="t-dot" data-slide="1"></button>
+            <button class="t-dot" data-slide="2"></button>
+        </div>
+    </section>
+
+    <!-- ====== BLOG ====== -->
+    <section class="blog-section" id="blog">
+        <div style="text-align: center; margin-bottom: 0;">
+            <div class="tag" style="justify-content: center;">Latest Insights</div>
+            <h2 class="section-heading">From Our <span class="teal">Blog</span></h2>
+        </div>
+
+        <div class="blog-grid">
+            <!-- Featured -->
+            <div class="blog-card-featured">
+                <div class="blog-card-f-img">
+                    <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80" alt="Blog">
+                </div>
+                <div class="blog-card-f-content">
+                    <div class="blog-tag">SPM Guide</div>
+                    <h3 class="blog-title" style="font-size: 28px;">What is a Special Purpose Machine? The Complete 2024 Guide</h3>
+                    <p class="blog-excerpt">Learn everything about SPM machines — types, applications, benefits, and how they transform manufacturing operations globally...</p>
+                    <div class="blog-date"><i class="far fa-calendar-alt"></i> &nbsp;Jan 15, 2024</div>
+                </div>
+            </div>
+
+            <!-- Small 1 -->
+            <div class="blog-card-sm">
+                <div class="blog-tag">Automation</div>
+                <h3 class="blog-title">Future of Industrial Automation in India: Trends 2024-2030</h3>
+                <p class="blog-excerpt">Discover the key trends shaping India's industrial automation landscape and how manufacturers can stay ahead...</p>
+                <div class="blog-date"><i class="far fa-calendar-alt"></i> &nbsp;Jan 10, 2024</div>
+            </div>
+
+            <!-- Small 2 -->
+            <div class="blog-card-sm">
+                <div class="blog-tag">Assembly</div>
+                <h3 class="blog-title">How Assembly Line Automation Boosts Production by 300%</h3>
+                <p class="blog-excerpt">A real case study on how automated assembly lines transformed a leading manufacturer's production capacity...</p>
+                <div class="blog-date"><i class="far fa-calendar-alt"></i> &nbsp;Jan 05, 2024</div>
+            </div>
+
+            <!-- Small 3 -->
+            <div class="blog-card-sm">
+                <div class="blog-tag">Quality</div>
+                <h3 class="blog-title">Zero-Defect Manufacturing: Role of Leak Testing Machines</h3>
+                <p class="blog-excerpt">How advanced leak testing machines are helping manufacturers achieve zero-defect production standards...</p>
+                <div class="blog-date"><i class="far fa-calendar-alt"></i> &nbsp;Dec 28, 2023</div>
+            </div>
+
+            <!-- Small 4 -->
+            <div class="blog-card-sm">
+                <div class="blog-tag">Innovation</div>
+                <h3 class="blog-title">SPM vs CNC: Which is Right for Your Manufacturing Needs?</h3>
+                <p class="blog-excerpt">Understanding the key differences between Special Purpose Machines and CNC machines for your factory...</p>
+                <div class="blog-date"><i class="far fa-calendar-alt"></i> &nbsp;Dec 20, 2023</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CTA ====== -->
+    <section class="cta-section" id="contact">
+        <div class="cta-inner">
+            <div class="tag" style="justify-content: center;">Let's Talk</div>
+            <h2 class="cta-heading">Ready to <span class="teal">Automate</span> Your<br>Manufacturing Line?</h2>
+            <p class="cta-sub">
+                Our engineering team will design the perfect automation solution 
+                tailored to your specific manufacturing needs.
+            </p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-glow" style="font-size: 17px; padding: 18px 44px;">
+                    <span><i class="fas fa-paper-plane"></i> &nbsp;Get Free Consultation</span>
+                </a>
+                <a href="tel:+919876543210" class="btn-ghost" style="font-size: 17px; padding: 18px 44px;">
+                    <i class="fas fa-phone-alt"></i> Call Us Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="footer-top">
+            <!-- Brand -->
+            <div class="footer-brand">
+                <div class="nav-logo" style="margin-bottom: 0;">
+                    <div class="nav-logo-icon">R</div>
+                    <div class="nav-logo-text">RASCO <span>Industries</span></div>
+                </div>
+                <p>
+                    India's trusted industrial automation partner since 2009. Precision-engineered 
+                    SPM machines, assembly lines, and automation solutions.
+                </p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h5>Navigation</h5>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#products">Solutions</a></li>
+                    <li><a href="#industries">Industries</a></li>
+                    <li><a href="#process">Process</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#">CSR Activities</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+
+            <!-- Products -->
+            <div class="footer-col">
+                <h5>Solutions</h5>
+                <ul>
+                    <li><a href="#">Assembly Lines</a></li>
+                    <li><a href="#">Press Machines</a></li>
+                    <li><a href="#">Leak Testing</a></li>
+                    <li><a href="#">Crimping Machines</a></li>
+                    <li><a href="#">Torqueing Systems</a></li>
+                    <li><a href="#">Pick & Place</a></li>
+                    <li><a href="#">Welding Fixtures</a></li>
+                    <li><a href="#">Auto Greasing</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-col">
+                <h5>Get in Touch</h5>
+                <div class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Your Full Address,<br>City, State — PIN, India</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+91-98765 43210<br>+91-98765 43211</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@rascoindustries.com<br>sales@rascoindustries.com</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Mon - Sat: 9:00 AM - 6:00 PM</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2024 RASCO Industries. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <a href="#">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP FLOAT -->
+    <a href="https://wa.me/919876543210?text=Hello%20RASCO%2C%20I%20would%20like%20to%20enquire%20about%20your%20automation%20solutions." class="float-whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+
+    <!-- ============================
+         JAVASCRIPT
+         ============================ -->
+    <script>
+    (function() {
+
+        // ========================
+        // LOADER
+        // ========================
+        const loader = document.getElementById('loader');
+        const loaderCounter = document.getElementById('loaderCounter');
+        const loaderFill = document.getElementById('loaderFill');
+        let count = 0;
+
+        const loaderInterval = setInterval(() => {
+            count += Math.floor(Math.random() * 8) + 2;
+            if (count > 100) count = 100;
+            loaderCounter.textContent = count;
+            loaderFill.style.width = count + '%';
+
+            if (count >= 100) {
+                clearInterval(loaderInterval);
+                setTimeout(() => {
+                    loader.classList.add('done');
+                    document.body.style.overflow = 'auto';
+                }, 400);
+            }
+        }, 50);
+
+        document.body.style.overflow = 'hidden';
+
+        // ========================
+        // CUSTOM CURSOR
+        // ========================
+        const dot = document.getElementById('cursorDot');
+        const ring = document.getElementById('cursorRing');
+
+        if (window.innerWidth > 768) {
+            let mouseX = 0, mouseY = 0;
+            let ringX = 0, ringY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.left = mouseX - 4 + 'px';
+                dot.style.top = mouseY - 4 + 'px';
+            });
+
+            function animateRing() {
+                ringX += (mouseX - ringX) * 0.15;
+                ringY += (mouseY - ringY) * 0.15;
+                ring.style.left = ringX - 20 + 'px';
+                ring.style.top = ringY - 20 + 'px';
+                requestAnimationFrame(animateRing);
+            }
+            animateRing();
+
+            // Expand on interactive elements
+            const interactiveEls = document.querySelectorAll('a, button, .product-card, .bento-card, .pill, .mv-card, .industry-card, .client-box');
+            interactiveEls.forEach(el => {
+                el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+                el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+            });
+        }
+
+        // ========================
+        // NAVBAR
+        // ========================
+        const nav = document.getElementById('nav');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // ========================
+        // MOBILE MENU
+        // ========================
+        const menuToggle = document.getElementById('menuToggle');
+        const fullscreenMenu = document.getElementById('fullscreenMenu');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            fullscreenMenu.classList.toggle('open');
+            
+            if (fullscreenMenu.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('.fullscreen-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                fullscreenMenu.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // ========================
+        // SMOOTH SCROLL
+        // ========================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    const offset = nav.offsetHeight + 20;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ========================
+        // COUNTER ANIMATION
+        // ========================
+        let countersStarted = false;
+        const counters = document.querySelectorAll('.counter');
+        const statsGrid = document.querySelector('.stats-grid');
+
+        function startCounters() {
+            counters.forEach(counter => {
+                const target = parseInt(counter.dataset.target);
+                const duration = 2000;
+                const start = performance.now();
+
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.floor(target * ease);
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.textContent = target;
+                    }
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !countersStarted) {
+                countersStarted = true;
+                startCounters();
+            }
+        }, { threshold: 0.4 });
+
+        if (statsGrid) counterObserver.observe(statsGrid);
+
+        // ========================
+        // PRODUCTS SCROLL BUTTONS
+        // ========================
+        const productsTrack = document.getElementById('productsTrack');
+        const scrollLeftBtn = document.getElementById('scrollLeft');
+        const scrollRightBtn = document.getElementById('scrollRight');
+
+        if (scrollLeftBtn && scrollRightBtn && productsTrack) {
+            scrollRightBtn.addEventListener('click', () => {
+                productsTrack.scrollBy({ left: 400, behavior: 'smooth' });
+            });
+            scrollLeftBtn.addEventListener('click', () => {
+                productsTrack.scrollBy({ left: -400, behavior: 'smooth' });
+            });
+
+            // Drag to scroll
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            productsTrack.addEventListener('mousedown', (e) => {
+                isDown = true;
+                productsTrack.style.cursor = 'grabbing';
+                startX = e.pageX - productsTrack.offsetLeft;
+                scrollLeft = productsTrack.scrollLeft;
+            });
+
+            productsTrack.addEventListener('mouseleave', () => {
+                isDown = false;
+                productsTrack.style.cursor = 'grab';
+            });
+
+            productsTrack.addEventListener('mouseup', () => {
+                isDown = false;
+                productsTrack.style.cursor = 'grab';
+            });
+
+            productsTrack.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - productsTrack.offsetLeft;
+                const walk = (x - startX) * 2;
+                productsTrack.scrollLeft = scrollLeft - walk;
+            });
+
+            productsTrack.style.cursor = 'grab';
+        }
+
+        // ========================
+        // TESTIMONIAL SLIDER
+        // ========================
+        const tCards = document.querySelectorAll('.testimonial-content');
+        const tDots = document.querySelectorAll('.t-dot');
+        let tCurrent = 0;
+        let tInterval;
+
+        function showTestimonial(idx) {
+            tCards.forEach(c => c.classList.remove('active'));
+            tDots.forEach(d => d.classList.remove('active'));
+            tCurrent = idx;
+            tCards[tCurrent].classList.add('active');
+            tDots[tCurrent].classList.add('active');
+        }
+
+        function nextTestimonial() {
+            let next = tCurrent + 1;
+            if (next >= tCards.length) next = 0;
+            showTestimonial(next);
+        }
+
+        function startAutoSlide() {
+            tInterval = setInterval(nextTestimonial, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(tInterval);
+        }
+
+        tDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                showTestimonial(parseInt(dot.dataset.slide));
+                stopAutoSlide();
+                startAutoSlide();
+            });
+        });
+
+        startAutoSlide();
+
+        // Touch swipe for testimonials
+        const tSection = document.querySelector('.testimonial-section');
+        let tTouchStart = 0;
+
+        if (tSection) {
+            tSection.addEventListener('touchstart', (e) => {
+                tTouchStart = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            tSection.addEventListener('touchend', (e) => {
+                const diff = tTouchStart - e.changedTouches[0].screenX;
+                if (Math.abs(diff) > 50) {
+                    stopAutoSlide();
+                    if (diff > 0) {
+                        nextTestimonial();
+                    } else {
+                        let prev = tCurrent - 1;
+                        if (prev < 0) prev = tCards.length - 1;
+                        showTestimonial(prev);
+                    }
+                    startAutoSlide();
+                }
+            }, { passive: true });
+        }
+
+        // ========================
+        // SCROLL REVEAL
+        // ========================
+        const revealElements = document.querySelectorAll(
+            '.tag, .section-heading, .stat-box, .about-feat, .mv-card, .product-card, .pill, .bento-card, .process-item, .client-box, .blog-card-featured, .blog-card-sm, .cta-inner'
+        );
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, i * 50);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        revealElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+            revealObserver.observe(el);
+        });
+
+        // ========================
+        // PARALLAX HERO
+        // ========================
+        const heroImg = document.querySelector('.hero-video-bg img');
+        window.addEventListener('scroll', () => {
+            if (!heroImg) return;
+            const scrollY = window.scrollY;
+            if (scrollY < window.innerHeight) {
+                heroImg.style.transform = `scale(1.1) translateY(${scrollY * 0.2}px)`;
+            }
+        });
+
+        // ========================
+        // MARQUEE PAUSE
+        // ========================
+        const marqueeInner = document.querySelector('.marquee-inner');
+        if (marqueeInner) {
+            marqueeInner.addEventListener('mouseenter', () => {
+                marqueeInner.style.animationPlayState = 'paused';
+            });
+            marqueeInner.addEventListener('mouseleave', () => {
+                marqueeInner.style.animationPlayState = 'running';
+            });
+        }
+
+        // ========================
+        // PAGE VISIBILITY
+        // ========================
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopAutoSlide();
+                if (marqueeInner) marqueeInner.style.animationPlayState = 'paused';
+            } else {
+                startAutoSlide();
+                if (marqueeInner) marqueeInner.style.animationPlayState = 'running';
+            }
+        });
+
+        // ========================
+        // KEYBOARD: ESC CLOSES MENU
+        // ========================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && fullscreenMenu.classList.contains('open')) {
+                menuToggle.classList.remove('active');
+                fullscreenMenu.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ========================
+        // DYNAMIC YEAR
+        // ========================
+        const expCounter = document.querySelector('.counter[data-target="15"]');
+        if (expCounter) {
+            const yrs = new Date().getFullYear() - 2009;
+            expCounter.dataset.target = yrs;
+        }
+
+        // ========================
+        // CONSOLE BRANDING
+        // ========================
+        console.log(
+            '%c⚙️ RASCO Industries %c Engineering Excellence Since 2009 ',
+            'background:#0a0a0a;color:#4DBAD5;padding:10px 14px;font-size:14px;font-weight:bold;border-radius:6px 0 0 6px;',
+            'background:#4DBAD5;color:#0a0a0a;padding:10px 14px;font-size:12px;border-radius:0 6px 6px 0;'
+        );
+
+    })();
+    </script>
+
+</body>
+</html>
