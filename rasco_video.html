@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASCO Industries | Precision Automation Since 2009</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        :root {
+            --bg: #FFFFFF;
+            --bg2: #F8FAFC;
+            --bg3: #F1F5F9;
+            --surface: #FFFFFF;
+            --dark: #0F172A;
+            --dark2: #1E293B;
+            --text: #0F172A;
+            --text2: #475569;
+            --text3: #94A3B8;
+            --text4: #CBD5E1;
+            --border: rgba(15,23,42,0.06);
+            --border2: rgba(15,23,42,0.1);
+            --border3: rgba(15,23,42,0.15);
+            --crimson: #E11D48;
+            --crimson-dark: #BE123C;
+            --crimson-light: #FFF1F2;
+            --crimson-glow: rgba(225,29,72,0.08);
+            --gradient1: linear-gradient(135deg, #E11D48 0%, #BE123C 100%);
+            --white: #FFFFFF;
+            --shadow: 0 4px 20px rgba(15,23,42,0.06);
+            --shadow-lg: 0 20px 60px rgba(15,23,42,0.08);
+            --shadow-crimson: 0 10px 40px rgba(225,29,72,0.15);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg2); }
+        ::-webkit-scrollbar-thumb { background: var(--crimson); border-radius: 3px; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        ::selection { background: var(--crimson); color: white; }
+
+        .noise {
+            position: fixed; inset: 0; z-index: 9999;
+            pointer-events: none; opacity: 0.018;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        }
+
+        /* ===== LOADER ===== */
+        .loader {
+            position: fixed; inset: 0; background: var(--white);
+            z-index: 100000; display: flex; align-items: center;
+            justify-content: center; flex-direction: column; gap: 32px;
+        }
+        .loader.done { animation: loaderOut 0.8s cubic-bezier(0.76,0,0.24,1) forwards; }
+        @keyframes loaderOut { 0% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(0 0 100% 0); } }
+
+        .loader-counter { font-family: 'Outfit'; font-size: 80px; font-weight: 100; color: var(--dark); letter-spacing: -4px; }
+        .loader-line { width: 200px; height: 1px; background: var(--border2); position: relative; overflow: hidden; }
+        .loader-line-fill { position: absolute; height: 100%; background: var(--crimson); width: 0%; transition: width 0.1s linear; }
+        .loader-text { font-size: 11px; letter-spacing: 6px; text-transform: uppercase; color: var(--text3); }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 24px 48px; display: flex; align-items: center;
+            justify-content: space-between;
+            transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+        }
+        .nav.scrolled {
+            padding: 16px 48px; background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(30px); border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 10px rgba(0,0,0,0.04);
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 12px; z-index: 10; }
+        .nav-logo-icon {
+            width: 40px; height: 40px; background: var(--gradient1);
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; font-family: 'Syne'; font-weight: 800;
+            font-size: 18px; color: white;
+        }
+        .nav-logo-text { font-family: 'Syne'; font-weight: 700; font-size: 20px; letter-spacing: -0.5px; }
+        .nav:not(.scrolled) .nav-logo-text { color: white; }
+        .nav.scrolled .nav-logo-text { color: var(--dark); }
+        .nav-logo-text span { font-weight: 400; font-size: 14px; margin-left: 8px; }
+        .nav:not(.scrolled) .nav-logo-text span { color: rgba(255,255,255,0.5); }
+        .nav.scrolled .nav-logo-text span { color: var(--text3); }
+
+        .nav-links { display: flex; align-items: center; gap: 4px; }
+        .nav-link { padding: 10px 18px; font-size: 14px; transition: all 0.3s; border-radius: 8px; }
+        .nav:not(.scrolled) .nav-link { color: rgba(255,255,255,0.7); }
+        .nav.scrolled .nav-link { color: var(--text2); }
+        .nav-link:hover { color: var(--crimson); }
+
+        .nav-cta {
+            padding: 10px 24px; background: var(--crimson); color: white;
+            font-size: 14px; font-weight: 600; border-radius: 8px;
+            transition: all 0.3s; margin-left: 16px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav-cta:hover { background: var(--crimson-dark); transform: translateY(-2px); box-shadow: var(--shadow-crimson); }
+        .nav-cta .arrow { display: inline-block; transition: transform 0.3s; }
+        .nav-cta:hover .arrow { transform: translateX(4px); }
+
+        .menu-toggle {
+            display: none; width: 48px; height: 48px;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px; cursor: pointer; z-index: 1001;
+            align-items: center; justify-content: center; flex-direction: column; gap: 5px;
+        }
+        .nav.scrolled .menu-toggle { background: var(--bg2); border-color: var(--border2); }
+        .menu-toggle span { display: block; width: 20px; height: 1.5px; background: white; transition: all 0.3s; }
+        .nav.scrolled .menu-toggle span { background: var(--dark); }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+        /* Fullscreen Menu */
+        .fullscreen-menu {
+            position: fixed; inset: 0; background: var(--white);
+            z-index: 999; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.5s;
+        }
+        .fullscreen-menu.open { opacity: 1; visibility: visible; }
+        .fullscreen-link {
+            display: block; font-family: 'Syne';
+            font-size: clamp(36px,6vw,64px); font-weight: 700;
+            color: var(--text4); padding: 8px 0; transition: all 0.3s;
+            transform: translateY(20px); opacity: 0; text-align: center;
+        }
+        .fullscreen-menu.open .fullscreen-link { transform: translateY(0); opacity: 1; }
+        .fullscreen-link:nth-child(1) { transition-delay: 0.1s; }
+        .fullscreen-link:nth-child(2) { transition-delay: 0.15s; }
+        .fullscreen-link:nth-child(3) { transition-delay: 0.2s; }
+        .fullscreen-link:nth-child(4) { transition-delay: 0.25s; }
+        .fullscreen-link:nth-child(5) { transition-delay: 0.3s; }
+        .fullscreen-link:nth-child(6) { transition-delay: 0.35s; }
+        .fullscreen-link:hover { color: var(--crimson); transform: translateX(20px); }
+
+        /* Buttons */
+        .btn-glow {
+            padding: 16px 36px; background: var(--crimson); color: white;
+            font-family: 'Space Grotesk'; font-size: 15px; font-weight: 600;
+            border: none; border-radius: 100px; cursor: pointer;
+            transition: all 0.4s; display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-glow:hover { background: var(--crimson-dark); transform: translateY(-3px); box-shadow: var(--shadow-crimson); }
+        .btn-glow span { position: relative; z-index: 1; }
+
+        .btn-ghost {
+            padding: 16px 36px; background: transparent; color: white;
+            font-family: 'Space Grotesk'; font-size: 15px; font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 100px;
+            cursor: pointer; transition: all 0.4s;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-ghost:hover { border-color: white; background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+
+        .btn-ghost-dark {
+            padding: 16px 36px; background: transparent; color: var(--dark);
+            font-family: 'Space Grotesk'; font-size: 15px; font-weight: 500;
+            border: 1px solid var(--border3); border-radius: 100px;
+            cursor: pointer; transition: all 0.4s;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-ghost-dark:hover { border-color: var(--dark); background: var(--bg2); transform: translateY(-3px); }
+
+        .tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 12px; color: var(--crimson); text-transform: uppercase;
+            letter-spacing: 4px; margin-bottom: 32px;
+        }
+        .tag::before { content: ''; width: 24px; height: 1px; background: var(--crimson); }
+
+        .section-heading {
+            font-family: 'Syne'; font-size: clamp(32px,4vw,52px);
+            font-weight: 700; line-height: 1.1; letter-spacing: -1px;
+            margin-bottom: 32px; color: var(--dark);
+        }
+        .section-heading .crimson { color: var(--crimson); }
+
+        /* ======================================
+           SECTION 1: HERO WITH VIDEO
+           ====================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 60px;
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* VIDEO BACKGROUND — Replace <img> with <video> when you have the actual video */
+        .hero-video-bg video,
+        .hero-video-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                rgba(15,23,42,0.5) 0%,
+                rgba(15,23,42,0.1) 30%,
+                rgba(15,23,42,0.4) 60%,
+                rgba(15,23,42,0.95) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Animated gradient edge */
+        .hero-gradient::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+        }
+
+        .hero-content { position: relative; z-index: 2; width: 100%; padding: 0 48px; }
+
+        .hero-top-tag {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 8px 16px; border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 100px; font-size: 12px; color: rgba(255,255,255,0.6);
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px;
+            backdrop-filter: blur(10px);
+        }
+        .hero-top-tag .dot {
+            width: 6px; height: 6px; background: var(--crimson);
+            border-radius: 50%; animation: blink 2s infinite;
+        }
+        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+        .hero-heading {
+            font-family: 'Syne'; font-size: clamp(44px,7.5vw,110px);
+            font-weight: 800; line-height: 0.95; letter-spacing: -3px;
+            margin-bottom: 40px; max-width: 900px; color: white;
+        }
+        .hero-heading .line { display: block; overflow: hidden; }
+        .hero-heading .line-inner {
+            display: block; transform: translateY(100%);
+            animation: slideUp 0.8s cubic-bezier(0.76,0,0.24,1) forwards;
+        }
+        .hero-heading .line:nth-child(1) .line-inner { animation-delay: 0.4s; }
+        .hero-heading .line:nth-child(2) .line-inner { animation-delay: 0.5s; color: var(--crimson); }
+        .hero-heading .line:nth-child(3) .line-inner { animation-delay: 0.6s; }
+        @keyframes slideUp { to { transform: translateY(0); } }
+
+        .hero-bottom {
+            display: flex; justify-content: space-between;
+            align-items: flex-end; gap: 40px;
+        }
+        .hero-desc { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 420px; }
+        .hero-actions { display: flex; gap: 16px; align-items: center; }
+
+        /* ======================================
+           SECTION 2: MARQUEE — CAPABILITIES STRIP
+           ====================================== */
+        .marquee-strip {
+            padding: 20px 0; border-bottom: 1px solid var(--border);
+            overflow: hidden; background: var(--white);
+        }
+        .marquee-inner {
+            display: flex; gap: 60px; animation: marqueeScroll 20s linear infinite;
+            width: max-content;
+        }
+        @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-item {
+            display: flex; align-items: center; gap: 20px; white-space: nowrap;
+            font-family: 'Outfit'; font-size: 16px; font-weight: 300;
+            color: var(--text3); text-transform: uppercase; letter-spacing: 3px;
+        }
+        .marquee-item .sep { width: 6px; height: 6px; background: var(--crimson); border-radius: 50%; }
+
+        /* ======================================
+           SECTION 3: STATS WITH CONTEXT
+           ====================================== */
+        .stats-section { padding: 100px 48px; background: var(--white); }
+
+        .stats-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .stats-intro-text p {
+            font-size: 18px;
+            color: var(--text2);
+            line-height: 1.8;
+        }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4,1fr);
+            gap: 1px; background: var(--border);
+            border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .stat-box {
+            background: var(--white); padding: 48px 32px;
+            text-align: center; transition: all 0.4s;
+        }
+        .stat-box:hover { background: var(--crimson-light); }
+        .stat-box:hover .stat-num { color: var(--crimson); }
+        .stat-num {
+            font-family: 'Outfit'; font-size: 56px; font-weight: 200;
+            letter-spacing: -2px; color: var(--dark); transition: color 0.4s; line-height: 1;
+        }
+        .stat-num sup { font-size: 24px; font-weight: 300; }
+        .stat-label { font-size: 13px; color: var(--text3); text-transform: uppercase; letter-spacing: 2px; margin-top: 12px; }
+
+        /* ======================================
+           SECTION 4: VIDEO SHOWREEL
+           ====================================== */
+        .showreel-section {
+            padding: 100px 48px;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showreel-section::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(225,29,72,0.08) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .showreel-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .showreel-content .tag { color: rgba(255,255,255,0.5); }
+        .showreel-content .tag::before { background: rgba(255,255,255,0.3); }
+        .showreel-content .section-heading { color: white; }
+        .showreel-content p { color: rgba(255,255,255,0.5); font-size: 16px; margin-bottom: 48px; }
+
+        .video-wrapper {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            aspect-ratio: 16/9;
+            background: #000;
+            cursor: pointer;
+        }
+
+        .video-wrapper img,
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.5);
+            transition: all 0.5s;
+        }
+
+        .video-wrapper:hover img,
+        .video-wrapper:hover video {
+            filter: brightness(0.7);
+            transform: scale(1.02);
+        }
+
+        .video-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            background: var(--crimson);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            z-index: 2;
+            transition: all 0.4s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .video-play-btn::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 2px solid rgba(225,29,72,0.3);
+            animation: playPulse 2s infinite;
+        }
+
+        @keyframes playPulse {
+            0%,100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0; }
+        }
+
+        .video-play-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 60px rgba(225,29,72,0.4);
+        }
+
+        .video-play-btn i {
+            margin-left: 4px; /* visual center for play icon */
+        }
+
+        /* Video Modal */
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 100001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s;
+        }
+
+        .video-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .video-modal-inner {
+            width: 90%;
+            max-width: 1000px;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+
+        .video-modal-inner iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .video-modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .video-modal-close:hover {
+            background: var(--crimson);
+            border-color: var(--crimson);
+        }
+
+        /* ======================================
+           SECTION 5: ABOUT SPLIT (with video)
+           ====================================== */
+        .about-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+
+        .about-left { position: relative; overflow: hidden; }
+        .about-left img, .about-left video {
+            width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease;
+        }
+        .about-left:hover img, .about-left:hover video { transform: scale(1.05); }
+
+        .about-year-badge { position: absolute; bottom: 40px; left: 40px; z-index: 2; }
+        .about-year-badge .year { font-family: 'Outfit'; font-size: 100px; font-weight: 100; color: white; line-height: 1; letter-spacing: -4px; }
+        .about-year-badge .label { font-size: 12px; color: var(--crimson); text-transform: uppercase; letter-spacing: 4px; }
+
+        .about-right {
+            padding: 80px 64px; display: flex; flex-direction: column;
+            justify-content: center; background: var(--white);
+        }
+        .about-text { font-size: 16px; color: var(--text2); line-height: 1.8; margin-bottom: 24px; }
+        .about-features-list { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+        .about-feat {
+            display: flex; align-items: center; gap: 16px;
+            padding: 16px 20px; background: var(--bg2);
+            border: 1px solid var(--border); border-radius: 10px; transition: all 0.3s;
+        }
+        .about-feat:hover { background: var(--crimson-light); border-color: rgba(225,29,72,0.15); transform: translateX(8px); }
+        .about-feat-icon {
+            width: 40px; height: 40px; display: flex; align-items: center;
+            justify-content: center; background: var(--crimson-glow);
+            border-radius: 10px; color: var(--crimson); font-size: 16px; flex-shrink: 0;
+        }
+        .about-feat:hover .about-feat-icon { background: var(--crimson); color: white; }
+        .about-feat-text { font-size: 14px; font-weight: 500; color: var(--text2); }
+
+        /* ======================================
+           SECTION 6: INFRASTRUCTURE / FACTORY
+           ====================================== */
+        .infra-section {
+            padding: 100px 48px;
+            background: var(--bg2);
+        }
+
+        .infra-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .infra-header p {
+            font-size: 16px;
+            color: var(--text3);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .infra-bento {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 300px 300px;
+            gap: 12px;
+        }
+
+        .infra-card {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .infra-card img, .infra-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .infra-card:hover img,
+        .infra-card:hover video {
+            transform: scale(1.08);
+        }
+
+        .infra-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(15,23,42,0.85) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            transition: background 0.3s;
+        }
+
+        .infra-card:hover .infra-card-overlay {
+            background: linear-gradient(180deg, transparent 20%, rgba(225,29,72,0.7) 100%);
+        }
+
+        .infra-card-title {
+            font-family: 'Syne';
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .infra-card-sub {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 4px;
+        }
+
+        /* Large card spanning 2 cols */
+        .infra-card.large { grid-column: span 2; }
+        /* Tall card spanning 2 rows */
+        .infra-card.tall { grid-row: span 2; }
+
+        /* Video indicator on card */
+        .infra-video-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 14px;
+            background: rgba(225,29,72,0.9);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .infra-video-badge i { font-size: 10px; }
+
+        /* ======================================
+           SECTION 7: PRODUCTS WITH VIDEO PREVIEWS
+           ====================================== */
+        .products-section { padding: 100px 0; overflow: hidden; background: var(--white); }
+
+        .products-header {
+            padding: 0 48px; display: flex; justify-content: space-between;
+            align-items: flex-end; margin-bottom: 60px;
+        }
+        .products-header-right { display: flex; gap: 12px; }
+        .scroll-btn {
+            width: 52px; height: 52px; border-radius: 50%;
+            border: 1px solid var(--border2); background: transparent;
+            color: var(--dark); font-size: 18px; cursor: pointer;
+            transition: all 0.3s; display: flex; align-items: center; justify-content: center;
+        }
+        .scroll-btn:hover { background: var(--crimson); border-color: var(--crimson); color: white; }
+
+        .products-track-wrapper {
+            overflow-x: auto; padding: 0 48px 24px;
+            scrollbar-width: none;
+        }
+        .products-track-wrapper::-webkit-scrollbar { display: none; }
+        .products-track { display: flex; gap: 20px; width: max-content; }
+
+        .product-card {
+            width: 400px; flex-shrink: 0; background: var(--white);
+            border: 1px solid var(--border); border-radius: var(--radius-lg);
+            overflow: hidden; transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+        }
+        .product-card:hover { border-color: rgba(225,29,72,0.2); transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+
+        .product-card-media {
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Product video/image */
+        .product-card-media img,
+        .product-card-media video {
+            width: 100%; height: 100%; object-fit: cover; transition: all 0.6s;
+        }
+        .product-card:hover .product-card-media img,
+        .product-card:hover .product-card-media video {
+            transform: scale(1.08);
+        }
+
+        /* Overlay gradient on product image */
+        .product-card-media::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(15,23,42,0.5) 100%);
+            pointer-events: none;
+        }
+
+        .product-card-num {
+            position: absolute; top: 16px; left: 16px;
+            font-family: 'Outfit'; font-size: 48px; font-weight: 100;
+            color: rgba(255,255,255,0.3); z-index: 1;
+        }
+
+        /* Product video play mini button */
+        .product-play-btn {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            width: 44px;
+            height: 44px;
+            background: var(--crimson);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            z-index: 2;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .product-card:hover .product-play-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(225,29,72,0.4);
+        }
+
+        .product-card-body { padding: 28px; }
+        .product-card-tag { font-size: 11px; color: var(--crimson); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .product-card-title { font-family: 'Syne'; font-size: 22px; font-weight: 700; margin-bottom: 10px; line-height: 1.3; color: var(--dark); }
+        .product-card-desc { font-size: 14px; color: var(--text3); line-height: 1.6; margin-bottom: 16px; }
+
+        /* Key specs pills */
+        .product-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .product-spec {
+            padding: 5px 12px;
+            background: var(--bg2);
+            border-radius: 100px;
+            font-size: 11px;
+            color: var(--text2);
+            font-weight: 500;
+        }
+
+        .product-card-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 14px; font-weight: 500; color: var(--crimson); transition: gap 0.3s;
+        }
+        .product-card-link:hover { gap: 14px; }
+
+        /* ======================================
+           SECTION 8: ADVANTAGES (WHY RASCO)
+           ====================================== */
+        .advantages-section {
+            padding: 100px 48px;
+            background: var(--white);
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .advantages-left {
+            position: relative;
+        }
+
+        .advantages-video-card {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 4/3;
+        }
+
+        .advantages-video-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        .advantages-video-card .video-play-btn {
+            width: 70px;
+            height: 70px;
+            font-size: 20px;
+        }
+
+        /* Floating stat cards on video */
+        .adv-float-card {
+            position: absolute;
+            background: white;
+            border-radius: 14px;
+            padding: 16px 20px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            animation: float 3s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .adv-float-card:nth-child(2) {
+            top: -20px;
+            right: -20px;
+            animation-delay: 0.5s;
+        }
+
+        .adv-float-card:nth-child(3) {
+            bottom: -20px;
+            left: -20px;
+            animation-delay: 1s;
+        }
+
+        .adv-float-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--crimson-light);
+            border-radius: 12px;
+            color: var(--crimson);
+            font-size: 18px;
+        }
+
+        .adv-float-num {
+            font-family: 'Outfit';
+            font-size: 28px;
+            font-weight: 300;
+            color: var(--dark);
+            line-height: 1;
+        }
+
+        .adv-float-label {
+            font-size: 12px;
+            color: var(--text3);
+        }
+
+        .advantages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .advantage-item {
+            display: flex;
+            gap: 20px;
+            padding: 24px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: all 0.4s;
+        }
+
+        .advantage-item:hover {
+            background: var(--crimson-light);
+            border-color: rgba(225,29,72,0.15);
+            transform: translateX(8px);
+        }
+
+        .advantage-num {
+            font-family: 'Outfit';
+            font-size: 36px;
+            font-weight: 200;
+            color: var(--crimson);
+            line-height: 1;
+            flex-shrink: 0;
+            width: 50px;
+        }
+
+        .advantage-content h4 {
+            font-family: 'Syne';
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .advantage-content p {
+            font-size: 14px;
+            color: var(--text3);
+            line-height: 1.6;
+        }
+
+        /* ======================================
+           SECTION 9: CTA
+           ====================================== */
+        .cta-section {
+            padding: 120px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--dark);
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(225,29,72,0.12) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .cta-inner { position: relative; z-index: 1; }
+        .cta-heading {
+            font-family: 'Syne';
+            font-size: clamp(36px,5vw,64px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            color: white;
+        }
+        .cta-heading .crimson { color: var(--crimson); }
+        .cta-sub {
+            font-size: 18px;
+            color: rgba(255,255,255,0.5);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        .cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+        /* ======================================
+           FOOTER
+           ====================================== */
+        .footer {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 80px 48px 32px;
+            background: var(--dark);
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+            gap: 48px;
+            padding-bottom: 64px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer .nav-logo-text { color: white; }
+        .footer .nav-logo-text span { color: rgba(255,255,255,0.4); }
+        .footer-brand p { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; margin: 16px 0 24px; max-width: 300px; }
+        .footer-social { display: flex; gap: 8px; }
+        .footer-social a {
+            width: 40px; height: 40px; display: flex; align-items: center;
+            justify-content: center; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.4); font-size: 15px; transition: all 0.3s;
+        }
+        .footer-social a:hover { border-color: var(--crimson); color: var(--crimson); background: rgba(225,29,72,0.1); }
+        .footer-col h5 { font-family: 'Syne'; font-size: 14px; font-weight: 700; color: white; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { font-size: 14px; color: rgba(255,255,255,0.4); transition: all 0.3s; }
+        .footer-col a:hover { color: var(--crimson); padding-left: 6px; }
+        .footer-contact-item { display: flex; gap: 10px; margin-bottom: 14px; font-size: 14px; color: rgba(255,255,255,0.4); }
+        .footer-contact-item i { color: var(--crimson); width: 16px; margin-top: 3px; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; font-size: 13px; color: rgba(255,255,255,0.3); }
+        .footer-bottom-links { display: flex; gap: 24px; }
+        .footer-bottom-links a { color: rgba(255,255,255,0.3); transition: color 0.3s; }
+        .footer-bottom-links a:hover { color: var(--crimson); }
+
+        /* WhatsApp */
+        .float-whatsapp {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 56px; height: 56px; background: #25D366;
+            border-radius: 16px; display: flex; align-items: center;
+            justify-content: center; color: white; font-size: 26px;
+            z-index: 999; transition: all 0.3s; cursor: pointer;
+        }
+        .float-whatsapp:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(37,211,102,0.4); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .nav { padding: 16px 24px; }
+            .nav-links, .nav-cta { display: none; }
+            .menu-toggle { display: flex; }
+            .hero-content { padding: 0 24px; }
+            .hero-bottom { flex-direction: column; align-items: flex-start; }
+            .stats-section, .infra-section, .advantages-section, .cta-section { padding: 60px 24px; }
+            .stats-intro { grid-template-columns: 1fr; gap: 40px; }
+            .stats-grid { grid-template-columns: repeat(2,1fr); }
+            .about-split { grid-template-columns: 1fr; }
+            .about-left { min-height: 400px; }
+            .about-right { padding: 60px 24px; }
+            .infra-bento { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+            .infra-card.large { grid-column: span 2; }
+            .infra-card.tall { grid-row: span 1; }
+            .products-header { padding: 0 24px; flex-direction: column; gap: 20px; }
+            .products-track-wrapper { padding: 0 24px 24px; }
+            .product-card { width: 340px; }
+            .advantages-grid { grid-template-columns: 1fr; gap: 40px; }
+            .showreel-section { padding: 60px 24px; }
+            .footer { padding: 60px 24px 24px; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-actions { flex-direction: column; width: 100%; }
+            .btn-glow, .btn-ghost { width: 100%; justify-content: center; }
+            .stat-num { font-size: 40px; }
+            .infra-bento { grid-template-columns: 1fr; }
+            .infra-card.large { grid-column: span 1; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .adv-float-card { display: none; }
+            .video-play-btn { width: 70px; height: 70px; font-size: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noise"></div>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader-counter" id="loaderCounter">0</div>
+        <div class="loader-line"><div class="loader-line-fill" id="loaderFill"></div></div>
+        <div class="loader-text">RASCO Industries</div>
+    </div>
+
+    <!-- VIDEO MODAL -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-inner">
+            <button class="video-modal-close" id="videoClose"><i class="fas fa-times"></i></button>
+            <!-- Replace with your actual YouTube showreel ID -->
+            <iframe id="videoIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <div class="nav-logo">
+            <div class="nav-logo-icon">R</div>
+            <div class="nav-logo-text">RASCO <span>Industries</span></div>
+        </div>
+        <div class="nav-links">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#infra" class="nav-link">Infrastructure</a>
+            <a href="#products" class="nav-link">Solutions</a>
+            <a href="#advantages" class="nav-link">Why Us</a>
+            <a href="#blog" class="nav-link">Insights</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+        <a href="#contact" class="nav-cta">Get a Quote <span class="arrow">→</span></a>
+        <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+    </nav>
+
+    <!-- FULLSCREEN MENU -->
+    <div class="fullscreen-menu" id="fullscreenMenu">
+        <div class="fullscreen-menu-inner">
+            <a href="#about" class="fullscreen-link">About</a>
+            <a href="#infra" class="fullscreen-link">Infrastructure</a>
+            <a href="#products" class="fullscreen-link">Solutions</a>
+            <a href="#advantages" class="fullscreen-link">Why Us</a>
+            <a href="#blog" class="fullscreen-link">Insights</a>
+            <a href="#contact" class="fullscreen-link">Contact</a>
+            <a href="#contact" class="fullscreen-link" style="color:var(--crimson);">Get a Quote →</a>
+        </div>
+    </div>
+
+
+    <!-- ============================================
+         SECTION 1: HERO WITH VIDEO BG
+         ============================================ -->
+    <section class="hero">
+        <div class="hero-video-bg">
+            <!--
+                🎥 REPLACE THIS <img> WITH YOUR ACTUAL VIDEO:
+                
+                <video autoplay muted loop playsinline poster="/images/hero-poster.jpg">
+                    <source src="/videos/rasco-hero.mp4" type="video/mp4">
+                </video>
+
+                VIDEO TIPS:
+                - Duration: 15-30 seconds loop
+                - Resolution: 1920x1080 minimum
+                - File size: Under 10MB (compress with HandBrake)
+                - Content: Machines running, assembly line, sparks, CNC
+                - Style: Slow-motion, cinematic, multiple angles
+            -->
+            <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1920&q=80" alt="RASCO Factory">
+        </div>
+        <div class="hero-gradient"></div>
+
+        <div class="hero-content">
+            <div class="hero-top-tag"><span class="dot"></span> Engineering Excellence Since 2009</div>
+            <h1 class="hero-heading">
+                <span class="line"><span class="line-inner">Precision</span></span>
+                <span class="line"><span class="line-inner">Automation</span></span>
+                <span class="line"><span class="line-inner">Redefined.</span></span>
+            </h1>
+            <div class="hero-bottom">
+                <p class="hero-desc">We bridge the gap between imagination and execution. Custom SPM machines, assembly lines, and industrial automation — accelerating production with uncompromised quality.</p>
+                <div class="hero-actions">
+                    <a href="#products" class="btn-glow"><span>Explore Solutions</span></a>
+                    <a href="#" class="btn-ghost" id="heroPlayBtn"><i class="fas fa-play" style="font-size:12px;"></i> Watch Showreel</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SECTION 2: CAPABILITIES MARQUEE
+         ============================================ -->
+    <div class="marquee-strip">
+        <div class="marquee-inner">
+            <span class="marquee-item"><span class="sep"></span> Assembly Lines</span>
+            <span class="marquee-item"><span class="sep"></span> Press Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Leak Testing</span>
+            <span class="marquee-item"><span class="sep"></span> Crimping Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Torqueing Systems</span>
+            <span class="marquee-item"><span class="sep"></span> Auto Gauging</span>
+            <span class="marquee-item"><span class="sep"></span> Pick & Place</span>
+            <span class="marquee-item"><span class="sep"></span> Welding Fixtures</span>
+            <span class="marquee-item"><span class="sep"></span> Assembly Lines</span>
+            <span class="marquee-item"><span class="sep"></span> Press Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Leak Testing</span>
+            <span class="marquee-item"><span class="sep"></span> Crimping Machines</span>
+            <span class="marquee-item"><span class="sep"></span> Torqueing Systems</span>
+            <span class="marquee-item"><span class="sep"></span> Auto Gauging</span>
+            <span class="marquee-item"><span class="sep"></span> Pick & Place</span>
+            <span class="marquee-item"><span class="sep"></span> Welding Fixtures</span>
+        </div>
+    </div>
+
+
+    <!-- ============================================
+         SECTION 3: STATS WITH CONTEXT
+         ============================================ -->
+    <section class="stats-section">
+        <div class="stats-intro">
+            <div>
+                <div class="tag">Our Impact</div>
+                <h2 class="section-heading">Numbers That<br>Speak <span class="crimson">Volume</span></h2>
+            </div>
+            <div class="stats-intro-text">
+                <p>Since 2009, RASCO Industries has been at the forefront of industrial automation in India. Our numbers reflect the trust of 200+ manufacturers and the precision of 500+ machines delivered across the country.</p>
+            </div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="400">0</span><sup>+ Cr</sup></div>
+                <div class="stat-label">Annual Turnover</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="500">0</span><sup>+</sup></div>
+                <div class="stat-label">Machines Delivered</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="200">0</span><sup>+</sup></div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num"><span class="counter" data-target="15">0</span><sup>+ Yrs</sup></div>
+                <div class="stat-label">Experience</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SECTION 4: SHOWREEL VIDEO
+         ============================================ -->
+    <section class="showreel-section" id="showreel">
+        <div class="showreel-content">
+            <div class="tag">See Us In Action</div>
+            <h2 class="section-heading">Watch Our <span style="color:var(--crimson);">Showreel</span></h2>
+            <p>Experience the precision, scale, and innovation of RASCO Industries — from our design center to the factory floor.</p>
+        </div>
+
+        <div class="video-wrapper" id="showreelTrigger" style="max-width:1000px;margin:0 auto;position:relative;">
+            <!--
+                🎥 REPLACE with actual showreel thumbnail
+                Best: Screenshot from your YouTube video
+            -->
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&q=80" alt="RASCO Showreel">
+            <button class="video-play-btn" id="showreelPlayBtn">
+                <i class="fas fa-play"></i>
+            </button>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SECTION 5: ABOUT SPLIT
+         ============================================ -->
+    <section class="about-split" id="about">
+        <div class="about-left">
+            <!--
+                🎥 OPTION: Replace img with a looping factory video
+                <video autoplay muted loop playsinline>
+                    <source src="/videos/factory-tour-loop.mp4" type="video/mp4">
+                </video>
+            -->
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80" alt="RASCO Factory">
+            <div class="about-year-badge">
+                <div class="label">Established</div>
+                <div class="year">2009</div>
+            </div>
+        </div>
+        <div class="about-right">
+            <div class="tag">Who We Are</div>
+            <h2 class="section-heading">Bridging Imagination<br>& <span class="crimson">Execution</span></h2>
+            <p class="about-text">At RASCO Industries, we are engaged in the field of industrial automation & equipment supply dedicated to customer requirements. Since 2009, we've been transforming manufacturers' operations by delivering precision-engineered automation solutions tailored to evolving industry needs.</p>
+            <p class="about-text">Our products enhance productivity, accuracy, and safety — allowing companies to scale efficiently while minimizing human error and operational downtime. Each solution we design is a step toward a smarter, more efficient, and future-ready industrial world.</p>
+            <div class="about-features-list">
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="about-feat-text">ISO 9001:2015 Certified Manufacturing</div>
+                </div>
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-drafting-compass"></i></div>
+                    <div class="about-feat-text">In-house Design, R&D & Engineering</div>
+                </div>
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="about-feat-text">End-to-End Turnkey Automation Solutions</div>
+                </div>
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-headset"></i></div>
+                    <div class="about-feat-text">24/7 After-Sales Support & Maintenance</div>
+                </div>
+                <div class="about-feat">
+                    <div class="about-feat-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="about-feat-text">Sustainable Manufacturing Processes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SECTION 6: INFRASTRUCTURE / FACTORY BENTO
+         ============================================ -->
+    <section class="infra-section" id="infra">
+        <div class="infra-header">
+            <div class="tag" style="justify-content:center;">Our Infrastructure</div>
+            <h2 class="section-heading" style="text-align:center;">World-Class <span class="crimson">Facility</span></h2>
+            <p>State-of-the-art manufacturing setup with in-house design, CNC machining, assembly, testing & quality labs</p>
+        </div>
+
+        <div class="infra-bento">
+            <!--
+                🎥 CONTENT GUIDE FOR EACH CARD:
+                Replace placeholder images with actual factory photos/videos
+            -->
+
+            <!-- Card 1: Large — Main Factory Floor -->
+            <div class="infra-card large">
+                <!--
+                    REPLACE with: Wide-angle shot of main factory floor
+                    OR: Short video loop of machines running
+                    
+                    <video autoplay muted loop playsinline>
+                        <source src="/videos/factory-floor.mp4" type="video/mp4">
+                    </video>
+                -->
+                <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80" alt="Factory Floor">
+                <div class="infra-video-badge"><i class="fas fa-play"></i> Video Tour</div>
+                <div class="infra-card-overlay">
+                    <div class="infra-card-title">Manufacturing Floor</div>
+                    <div class="infra-card-sub">50,000+ sq.ft. state-of-the-art facility</div>
+                </div>
+            </div>
+
+            <!-- Card 2: CNC Center -->
+            <div class="infra-card">
+                <!-- REPLACE with: Photo of CNC machines / machining center -->
+                <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ede4bcd?w=500&q=80" alt="CNC Center">
+                <div class="infra-card-overlay">
+                    <div class="infra-card-title">CNC Machining Center</div>
+                    <div class="infra-card-sub">Precision machining capabilities</div>
+                </div>
+            </div>
+
+            <!-- Card 3: Design Center -->
+            <div class="infra-card">
+                <!-- REPLACE with: Photo of engineers working on CAD/design -->
+                <img src="https://images.unsplash.com/photo-1581092160607-ee22731c9383?w=500&q=80" alt="Design Center">
+                <div class="infra-card-overlay">
+                    <div class="infra-card-title">Design & R&D Center</div>
+                    <div class="infra-card-sub">Advanced CAD/CAM tools</div>
+                </div>
+            </div>
+
+            <!-- Card 4: Assembly Area -->
+            <div class="infra-card">
+                <!-- REPLACE with: Assembly area photo -->
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80" alt="Assembly Area">
+                <div class="infra-video-badge"><i class="fas fa-play"></i> Video</div>
+                <div class="infra-card-overlay">
+                    <div class="infra-card-title">Assembly & Integration</div>
+                    <div class="infra-card-sub">Machine assembly & wiring</div>
+                </div>
+            </div>
+
+            <!-- Card 5: Quality Lab -->
+            <div class="infra-card">
+                <!-- REPLACE with: Quality testing/inspection lab photo -->
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="Quality Lab">
+                <div class="infra-card-overlay">
+                    <div class="infra-card-title">Quality Testing Lab</div>
+                    <div class="infra-card-sub">Rigorous QC at every stage</div>
+                </div>
+            </div>
+
+            <!-- Card 6: Large — Finished Products -->
+            <div class="infra-card large">
+                <!-- REPLACE with: Completed machines / dispatch area photo -->
+                <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=800&q=80" alt="Finished Products">
+                <div class="infra-card-overlay">
+                    <div class="infra-card-title">Finished Machines Ready for Dispatch</div>
+                    <div class="infra-card-sub">500+ machines delivered across India</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SECTION 7: PRODUCTS WITH VIDEO PREVIEWS
+         ============================================ -->
+    <section class="products-section" id="products">
+        <div class="products-header">
+            <div>
+                <div class="tag">Our Solutions</div>
+                <h2 class="section-heading">What We <span class="crimson">Build</span></h2>
+            </div>
+            <div class="products-header-right">
+                <button class="scroll-btn" id="scrollLeft"><i class="fas fa-arrow-left"></i></button>
+                <button class="scroll-btn" id="scrollRight"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="products-track-wrapper" id="productsTrack">
+            <div class="products-track">
+
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">01</div>
+                        <!--
+                            🎥 REPLACE img with actual machine photo
+                            Add video play button if you have product video
+                        -->
+                        <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=500&q=80" alt="Assembly Lines">
+                        <button class="product-play-btn" data-video="YOUR_YOUTUBE_ID"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Automation</div>
+                        <h3 class="product-card-title">Assembly Lines</h3>
+                        <p class="product-card-desc">Fully automated assembly line solutions for mass production with precision, speed and minimal downtime.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Fully Automated</span>
+                            <span class="product-spec">PLC Controlled</span>
+                            <span class="product-spec">Multi-Station</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">02</div>
+                        <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ede4bcd?w=500&q=80" alt="Press Machines">
+                        <button class="product-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Pressing</div>
+                        <h3 class="product-card-title">Press Machines</h3>
+                        <p class="product-card-desc">Press machines with pressing load & distance controlling interlock for precision forming operations.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Load Control</span>
+                            <span class="product-spec">Distance Interlock</span>
+                            <span class="product-spec">Hydraulic</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">03</div>
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="Auto Gauging">
+                        <button class="product-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Inspection</div>
+                        <h3 class="product-card-title">Auto Gauging Equipment</h3>
+                        <p class="product-card-desc">High-precision automatic gauging systems for quality inspection, measurement and real-time verification.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Micron Accuracy</span>
+                            <span class="product-spec">Real-time Data</span>
+                            <span class="product-spec">Auto Reject</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">04</div>
+                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=500&q=80" alt="Leak Testing">
+                        <button class="product-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Testing</div>
+                        <h3 class="product-card-title">Leak Testing Machines</h3>
+                        <p class="product-card-desc">Advanced leak testing solutions ensuring product integrity, zero-defect compliance and quality standards.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Zero Defect</span>
+                            <span class="product-spec">Air/Helium Test</span>
+                            <span class="product-spec">Auto Log</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">05</div>
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80" alt="Crimping">
+                        <button class="product-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Joining</div>
+                        <h3 class="product-card-title">Crimping Machines</h3>
+                        <p class="product-card-desc">Precision crimping solutions for reliable and consistent electrical connections in manufacturing.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Force Monitor</span>
+                            <span class="product-spec">Servo Driven</span>
+                            <span class="product-spec">Auto Feed</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">06</div>
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22731c9383?w=500&q=80" alt="Torqueing">
+                        <button class="product-play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Fastening</div>
+                        <h3 class="product-card-title">Torqueing & Preload Setting</h3>
+                        <p class="product-card-desc">Accurate torqueing and preload setting machines for critical fastening applications in automotive & aerospace.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Nm Precision</span>
+                            <span class="product-spec">Data Logging</span>
+                            <span class="product-spec">Traceability</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">07</div>
+                        <img src="https://images.unsplash.com/photo-1537462715315-eb0b3a4414c7?w=500&q=80" alt="Pick Place">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Handling</div>
+                        <h3 class="product-card-title">Pick & Place Equipment</h3>
+                        <p class="product-card-desc">Automated pick & place systems for efficient material handling, positioning and streamlined operations.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Pneumatic</span>
+                            <span class="product-spec">Servo Based</span>
+                            <span class="product-spec">High Speed</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="product-card">
+                    <div class="product-card-media">
+                        <div class="product-card-num">08</div>
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80" alt="Fixtures">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-tag">Fixtures</div>
+                        <h3 class="product-card-title">Welding & Assembly Fixtures</h3>
+                        <p class="product-card-desc">Precision welding, machining & assembly fixtures for accurate component positioning and repeatability.</p>
+                        <div class="product-specs">
+                            <span class="product-spec">Custom Design</span>
+                            <span class="product-spec">Quick Change</span>
+                            <span class="product-spec">Modular</span>
+                        </div>
+                        <a href="#" class="product-card-link">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SECTION 8: ADVANTAGES / WHY RASCO
+         ============================================ -->
+    <section class="advantages-section" id="advantages">
+        <div class="advantages-grid">
+
+            <!-- Left: Video + Floating Cards -->
+            <div class="advantages-left">
+                <div class="advantages-video-card">
+                    <!--
+                        🎥 REPLACE with actual factory/team video thumbnail
+                    -->
+                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ede4bcd?w=800&q=80" alt="Why RASCO">
+                    <button class="video-play-btn" id="advantagesPlayBtn"><i class="fas fa-play"></i></button>
+                </div>
+
+                <!-- Floating stat cards -->
+                <div class="adv-float-card">
+                    <div class="adv-float-icon"><i class="fas fa-cogs"></i></div>
+                    <div>
+                        <div class="adv-float-num">500+</div>
+                        <div class="adv-float-label">Machines Built</div>
+                    </div>
+                </div>
+
+                <div class="adv-float-card">
+                    <div class="adv-float-icon"><i class="fas fa-trophy"></i></div>
+                    <div>
+                        <div class="adv-float-num">99.5%</div>
+                        <div class="adv-float-label">Quality Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Advantages List -->
+            <div>
+                <div class="tag">Why RASCO</div>
+                <h2 class="section-heading">Built Different.<br><span class="crimson">Built Better.</span></h2>
+                <p style="color:var(--text2);font-size:16px;line-height:1.7;margin-bottom:32px;">
+                    What sets us apart isn't just what we build — it's how we build it. Every machine 
+                    carries our commitment to precision, innovation, and your success.
+                </p>
+
+                <div class="advantages-list">
+                    <div class="advantage-item">
+                        <div class="advantage-num">01</div>
+                        <div class="advantage-content">
+                            <h4>Precision Engineering</h4>
+                            <p>Micron-level accuracy in every machine. Repeatable quality critical for automotive, aerospace and defense industries.</p>
+                        </div>
+                    </div>
+
+                    <div class="advantage-item">
+                        <div class="advantage-num">02</div>
+                        <div class="advantage-content">
+                            <h4>In-House Everything</h4>
+                            <p>Design, R&D, manufacturing, assembly, testing & commissioning — all under one roof for total quality control.</p>
+                        </div>
+                    </div>
+
+                    <div class="advantage-item">
+                        <div class="advantage-num">03</div>
+                        <div class="advantage-content">
+                            <h4>Concept to Commissioning</h4>
+                            <p>Complete turnkey solutions. We understand your challenge, design the solution, build it, and install it at your facility.</p>
+                        </div>
+                    </div>
+
+                    <div class="advantage-item">
+                        <div class="advantage-num">04</div>
+                        <div class="advantage-content">
+                            <h4>Faster Time-to-Market</h4>
+                            <p>Our streamlined process accelerates production cycles, enabling you to launch products faster than competition.</p>
+                        </div>
+                    </div>
+
+                    <div class="advantage-item">
+                        <div class="advantage-num">05</div>
+                        <div class="advantage-content">
+                            <h4>Lifetime Support</h4>
+                            <p>Dedicated after-sales team for maintenance, spare parts, upgrades and 24/7 technical support across India.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SECTION 9: CTA
+         ============================================ -->
+    <section class="cta-section" id="contact">
+        <div class="cta-inner">
+            <div class="tag" style="justify-content:center;color:rgba(255,255,255,0.4);">Let's Talk</div>
+            <h2 class="cta-heading">Ready to <span class="crimson">Automate</span> Your<br>Manufacturing Line?</h2>
+            <p class="cta-sub">Our engineering team will design the perfect automation solution tailored to your specific manufacturing needs.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-glow" style="font-size:17px;padding:18px 44px;">
+                    <span><i class="fas fa-paper-plane"></i>&nbsp; Get Free Consultation</span>
+                </a>
+                <a href="tel:+919876543210" class="btn-ghost" style="font-size:17px;padding:18px 44px;">
+                    <i class="fas fa-phone-alt"></i> Call Us Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="nav-logo" style="margin-bottom:0;">
+                    <div class="nav-logo-icon">R</div>
+                    <div class="nav-logo-text">RASCO <span>Industries</span></div>
+                </div>
+                <p>India's trusted industrial automation partner since 2009. Precision-engineered SPM machines, assembly lines, and automation solutions.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Navigation</h5>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#infra">Infrastructure</a></li>
+                    <li><a href="#products">Solutions</a></li>
+                    <li><a href="#advantages">Why Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">CSR Activities</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Solutions</h5>
+                <ul>
+                    <li><a href="#">Assembly Lines</a></li>
+                    <li><a href="#">Press Machines</a></li>
+                    <li><a href="#">Leak Testing</a></li>
+                    <li><a href="#">Crimping Machines</a></li>
+                    <li><a href="#">Torqueing Systems</a></li>
+                    <li><a href="#">Pick & Place</a></li>
+                    <li><a href="#">Welding Fixtures</a></li>
+                    <li><a href="#">Auto Greasing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Get in Touch</h5>
+                <div class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Your Full Address,<br>City, State — PIN, India</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+91-98765 43210<br>+91-98765 43211</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@rascoindustries.com<br>sales@rascoindustries.com</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Mon - Sat: 9:00 AM - 6:00 PM</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© <span id="footerYear"></span> RASCO Industries. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <a href="#">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/919876543210?text=Hello%20RASCO%2C%20I%20would%20like%20to%20enquire%20about%20your%20automation%20solutions." class="float-whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+
+    <!-- ===================================================
+         COMPLETE JAVASCRIPT
+         =================================================== -->
+    <script>
+    (function() {
+
+        // ========================
+        // LOADER
+        // ========================
+        const loader = document.getElementById('loader');
+        const loaderCounter = document.getElementById('loaderCounter');
+        const loaderFill = document.getElementById('loaderFill');
+        let count = 0;
+        document.body.style.overflow = 'hidden';
+
+        const loaderInt = setInterval(() => {
+            count += Math.floor(Math.random() * 8) + 2;
+            if (count > 100) count = 100;
+            loaderCounter.textContent = count;
+            loaderFill.style.width = count + '%';
+            if (count >= 100) {
+                clearInterval(loaderInt);
+                setTimeout(() => {
+                    loader.classList.add('done');
+                    document.body.style.overflow = 'auto';
+                }, 400);
+            }
+        }, 50);
+
+        // ========================
+        // NAVBAR
+        // ========================
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 80);
+        });
+
+        // ========================
+        // MOBILE MENU
+        // ========================
+        const menuToggle = document.getElementById('menuToggle');
+        const fsMenu = document.getElementById('fullscreenMenu');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            fsMenu.classList.toggle('open');
+            document.body.style.overflow = fsMenu.classList.contains('open') ? 'hidden' : 'auto';
+        });
+
+        document.querySelectorAll('.fullscreen-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                fsMenu.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // ========================
+        // VIDEO MODAL
+        // ========================
+        const videoModal = document.getElementById('videoModal');
+        const videoIframe = document.getElementById('videoIframe');
+        const videoClose = document.getElementById('videoClose');
+
+        // Your YouTube showreel video ID
+        const SHOWREEL_VIDEO_ID = 'dQw4w9WgXcQ'; // ← REPLACE with actual ID
+
+        function openVideoModal(videoId) {
+            videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            videoModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            videoIframe.src = '';
+            videoModal.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Hero play button
+        const heroPlayBtn = document.getElementById('heroPlayBtn');
+        if (heroPlayBtn) {
+            heroPlayBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openVideoModal(SHOWREEL_VIDEO_ID);
+            });
+        }
+
+        // Showreel section play button
+        const showreelPlayBtn = document.getElementById('showreelPlayBtn');
+        if (showreelPlayBtn) {
+            showreelPlayBtn.addEventListener('click', () => {
+                openVideoModal(SHOWREEL_VIDEO_ID);
+            });
+        }
+
+        // Showreel wrapper click
+        const showreelTrigger = document.getElementById('showreelTrigger');
+        if (showreelTrigger) {
+            showreelTrigger.addEventListener('click', () => {
+                openVideoModal(SHOWREEL_VIDEO_ID);
+            });
+        }
+
+        // Advantages play button
+        const advantagesPlayBtn = document.getElementById('advantagesPlayBtn');
+        if (advantagesPlayBtn) {
+            advantagesPlayBtn.addEventListener('click', () => {
+                openVideoModal(SHOWREEL_VIDEO_ID); // Can be different video
+            });
+        }
+
+        // Product play buttons
+        document.querySelectorAll('.product-play-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const videoId = btn.dataset.video || SHOWREEL_VIDEO_ID;
+                openVideoModal(videoId);
+            });
+        });
+
+        // Close modal
+        videoClose.addEventListener('click', closeVideoModal);
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) closeVideoModal();
+        });
+
+        // ========================
+        // SMOOTH SCROLL
+        // ========================
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    window.scrollTo({
+                        top: target.getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ========================
+        // COUNTER ANIMATION
+        // ========================
+        let countersStarted = false;
+
+        function startCounters() {
+            document.querySelectorAll('.counter').forEach(c => {
+                const target = parseInt(c.dataset.target);
+                const start = performance.now();
+                (function update(now) {
+                    const p = Math.min((now - start) / 2000, 1);
+                    const ease = 1 - Math.pow(1 - p, 3);
+                    c.textContent = Math.floor(target * ease);
+                    if (p < 1) requestAnimationFrame(update);
+                    else c.textContent = target;
+                })(start);
+            });
+        }
+
+        const statsGrid = document.querySelector('.stats-grid');
+        if (statsGrid) {
+            new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !countersStarted) {
+                    countersStarted = true;
+                    startCounters();
+                }
+            }, { threshold: 0.4 }).observe(statsGrid);
+        }
+
+        // ========================
+        // PRODUCTS HORIZONTAL SCROLL
+        // ========================
+        const pTrack = document.getElementById('productsTrack');
+        const sL = document.getElementById('scrollLeft');
+        const sR = document.getElementById('scrollRight');
+
+        if (sL && sR && pTrack) {
+            sR.addEventListener('click', () => pTrack.scrollBy({ left: 420, behavior: 'smooth' }));
+            sL.addEventListener('click', () => pTrack.scrollBy({ left: -420, behavior: 'smooth' }));
+
+            // Drag scroll
+            let isDown = false, startX, scrollL;
+
+            pTrack.addEventListener('mousedown', e => {
+                isDown = true;
+                pTrack.style.cursor = 'grabbing';
+                startX = e.pageX - pTrack.offsetLeft;
+                scrollL = pTrack.scrollLeft;
+            });
+
+            ['mouseleave', 'mouseup'].forEach(evt => {
+                pTrack.addEventListener(evt, () => {
+                    isDown = false;
+                    pTrack.style.cursor = 'grab';
+                });
+            });
+
+            pTrack.addEventListener('mousemove', e => {
+                if (!isDown) return;
+                e.preventDefault();
+                pTrack.scrollLeft = scrollL - ((e.pageX - pTrack.offsetLeft) - startX) * 2;
+            });
+
+            pTrack.style.cursor = 'grab';
+        }
+
+        // ========================
+        // SCROLL REVEAL
+        // ========================
+        const revealEls = document.querySelectorAll(
+            '.tag, .section-heading, .stat-box, .about-feat, .about-text, ' +
+            '.infra-card, .product-card, .advantage-item, ' +
+            '.cta-inner, .stats-intro-text, .showreel-content, ' +
+            '.advantages-video-card, .video-wrapper'
+        );
+
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, i * 40);
+                    revealObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+        revealEls.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(25px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.4,0,0.2,1)';
+            revealObs.observe(el);
+        });
+
+        // ========================
+        // HERO PARALLAX
+        // ========================
+        const heroImg = document.querySelector('.hero-video-bg img');
+        window.addEventListener('scroll', () => {
+            if (heroImg && window.scrollY < window.innerHeight) {
+                heroImg.style.transform = `scale(1.1) translateY(${window.scrollY * 0.2}px)`;
+            }
+        });
+
+        // ========================
+        // MARQUEE PAUSE ON HOVER
+        // ========================
+        const mInner = document.querySelector('.marquee-inner');
+        if (mInner) {
+            mInner.addEventListener('mouseenter', () => mInner.style.animationPlayState = 'paused');
+            mInner.addEventListener('mouseleave', () => mInner.style.animationPlayState = 'running');
+        }
+
+        // ========================
+        // INFRA CARDS — HOVER VIDEO PREVIEW
+        // ========================
+        document.querySelectorAll('.infra-card').forEach(card => {
+            const video = card.querySelector('video');
+            if (video) {
+                card.addEventListener('mouseenter', () => {
+                    video.play().catch(() => {});
+                });
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            }
+        });
+
+        // ========================
+        // KEYBOARD: ESC
+        // ========================
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                // Close video modal
+                if (videoModal.classList.contains('open')) {
+                    closeVideoModal();
+                }
+                // Close mobile menu
+                if (fsMenu.classList.contains('open')) {
+                    menuToggle.classList.remove('active');
+                    fsMenu.classList.remove('open');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // ========================
+        // PAGE VISIBILITY
+        // ========================
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (mInner) mInner.style.animationPlayState = 'paused';
+                // Pause any playing videos in infra cards
+                document.querySelectorAll('.infra-card video').forEach(v => v.pause());
+            } else {
+                if (mInner) mInner.style.animationPlayState = 'running';
+            }
+        });
+
+        // ========================
+        // DYNAMIC YEAR + EXPERIENCE
+        // ========================
+        const yr = new Date().getFullYear();
+        const footerYear = document.getElementById('footerYear');
+        if (footerYear) footerYear.textContent = yr;
+
+        const expC = document.querySelector('.counter[data-target="15"]');
+        if (expC) expC.dataset.target = (yr - 2009).toString();
+
+        // ========================
+        // MAGNETIC BUTTON (Desktop)
+        // ========================
+        if (window.innerWidth > 1024) {
+            document.querySelectorAll('.btn-glow, .nav-cta, .scroll-btn, .video-play-btn').forEach(btn => {
+                btn.addEventListener('mousemove', e => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = '';
+                });
+            });
+        }
+
+        // ========================
+        // CONSOLE BRANDING
+        // ========================
+        console.log(
+            '%c⚙️ RASCO Industries %c Precision Automation Since 2009 ',
+            'background:#fff;color:#E11D48;padding:10px 14px;font-size:14px;font-weight:bold;border:2px solid #E11D48;border-radius:6px 0 0 6px;',
+            'background:#E11D48;color:#fff;padding:10px 14px;font-size:12px;border-radius:0 6px 6px 0;'
+        );
+
+    })();
+    </script>
+
+</body>
+</html>
